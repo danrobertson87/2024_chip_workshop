@@ -1,0 +1,24 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "2024_chip_workshop"
+  navbar:
+    logo: "images/logo.png"
+    left:
+      - href: 2024_chip_workshop.qmd
+        text: Home
+      - text: "Processing"
+        href: ChIP-seq_workshop_processing.qmd
+      - text: "Analysis"
+        href: ChIP-seq_workshop_analysis.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    link-external-newwindow: true
+
+editor: visual
