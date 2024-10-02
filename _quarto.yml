@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "2024_chip_workshop"
+  title: "Analysing High Throughput Sequencing Data"
   navbar:
     logo: "images/logo.png"
     left:

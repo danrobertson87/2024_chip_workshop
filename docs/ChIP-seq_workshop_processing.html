@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2024_chip_workshop - Processing Data</title>
+<title>Analysing High Throughput Sequencing Data - Processing Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -137,7 +137,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <img src="./images/logo.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">2024_chip_workshop</span>
+    <span class="navbar-title">Analysing High Throughput Sequencing Data</span>
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -206,10 +206,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#visualisation" id="toc-visualisation" class="nav-link" data-scroll-target="#visualisation">4. Visualisation</a>
   <ul class="collapse">
-  <li><a href="#creating-tracks" id="toc-creating-tracks" class="nav-link" data-scroll-target="#creating-tracks">Creating Tracks</a></li>
-  <li><a href="#converting-bam-files-to-bigwig" id="toc-converting-bam-files-to-bigwig" class="nav-link" data-scroll-target="#converting-bam-files-to-bigwig">Converting BAM files to bigWig</a></li>
-  <li><a href="#scripting" id="toc-scripting" class="nav-link" data-scroll-target="#scripting">Scripting</a></li>
-  <li><a href="#tidy-up" id="toc-tidy-up" class="nav-link" data-scroll-target="#tidy-up">Tidy Up!</a></li>
+  <li><a href="#converting-bam-files-to-bigwig-tracks" id="toc-converting-bam-files-to-bigwig-tracks" class="nav-link" data-scroll-target="#converting-bam-files-to-bigwig-tracks">Converting BAM files to bigWig tracks</a></li>
   <li><a href="#integrative-genomics-viewer-igv" id="toc-integrative-genomics-viewer-igv" class="nav-link" data-scroll-target="#integrative-genomics-viewer-igv">Integrative Genomics Viewer (IGV)</a></li>
   <li><a href="#other-genome-browsers" id="toc-other-genome-browsers" class="nav-link" data-scroll-target="#other-genome-browsers">Other genome browsers</a></li>
   </ul></li>
@@ -239,7 +236,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <script src="https://kit.fontawesome.com/ece750edd7.js" crossorigin="anonymous"></script>
 
-<hr>
+<div class="key-points">
+<h2 class="anchored">
+<i class="fas fa-thumbtack"></i> Key points:
+</h2>
+<ul>
+<li></li>
+</ul>
+</div>
+<div class="discussion">
+<h2 class="anchored">
+<i class="far fa-bell"></i> Discussion
+</h2>
+<ul>
+<li>test</li>
+</ul>
+</div>
+<div class="resources">
+<h2 class="anchored">
+<i class="fas fa-book"></i> Further Learning
+</h2>
+<p>test - test</p>
+</div>
+<div class="challenge">
+<h2 class="anchored">
+<i class="fas fa-pencil-alt"></i> Challenge:
+</h2>
+<p>test</p>
+</div>
+<div class="objectives">
+<p>&lt;h2&gt;&lt;i class=“far fa-check-square”&gt;&lt;/i&gt; Learning Objectives&lt;/h2&gt;</p>
+<p>- Set up a project folder</p>
+<p>- Assess quality of sequence data</p>
+<p>- Align reads to a reference genome and perform post alignment filtering</p>
+<p>- View read coverage profiles and alignments in a genome browser</p>
+</div>
 <section id="getting-started" class="level2">
 <h2 class="anchored" data-anchor-id="getting-started">1. Getting Started</h2>
 <p>We are using the Linux command line to run most of the tools we use today. If you are new to Linux please complete the Intro to Command Line <a href="http://bifx-core.bio.ed.ac.uk/hyweldd/training/Bioinformatics_on_the_Command_Line/">Workshop</a>.</p>
@@ -362,10 +393,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="section" class="level2">
 <h2 class="anchored" data-anchor-id="section"></h2>
 <ul>
-<li>Be able to login to the bifx servers</li>
+<li>Log in to the bifx servers</li>
 <li>Create a personal web directory</li>
 <li>Create a project directory for fastq files</li>
-<li>Install IGV on your own machine</li>
+<li>Running IGV</li>
 </ul>
 </section>
 </div>
@@ -446,7 +477,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="parallel">
 <i class="fas fa-pencil-alt"></i> Challenge:
 </h2>
-<p>See if you can adapt the QC portion of the script to use parallel.</p>
+<p>See if you can adapt the FastQC command to use the samples.txt file in parallel.</p>
+</div>
+<div class="challenge">
 <p><strong>Hint:</strong> <code>cat samples.txt</code> will print the names of the samples.</p>
 <details>
 <summary>
@@ -457,7 +490,6 @@ Solution
 <h2 class="anchored">
 <i class="far fa-eye"></i>
 </h2>
-<p><code>cat samples.txt | parallel -j 4 fastq_screen --conf /homes/genomes/tool_configs/fastq_screen/fastq_screen.conf fastq/{}.fq.gz  --outdir fastq</code></p>
 <p><code>cat samples.txt | parallel -j 4 fastqc fastq/{}.fq.gz</code></p>
 </div>
 </details>
@@ -482,18 +514,18 @@ Solution
 <li>–minimum-length : Filter out reads below this length</li>
 </ul>
 <p>We will also run FastQC on the trimmed dataset.</p>
-<div class="blue">
+<p>:::</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"cutadapt -a AGATCGGAAGAG -q 20 --minimum-length 36 -o fastq/{}.trim.fq.gz fastq/{}.fq.gz &gt; fastq/{}.trim.cutadapt_report.txt"</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 fastqc fastq/{}.trim.fq.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
 <p>To view a cutadapt report:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> fastq/Reb1_R1.trim.cutadapt_report.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>hit ‘q’ to exit less.</p>
 <p>Let’s compare the fastqc reports using <a href="http://multiqc.info/">multiqc</a>. As you have run it already you need to use the force (-f) flag to get it to overwrite the current report.</p>
-<div class="blue">
+<p>:::</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> <span class="at">-f</span> <span class="at">-o</span> fastq fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
 <p>Open the multiqc report via a web browser to see how the raw and trimmed datasets compare.</p>
 <p><br></p>
 </section>
@@ -510,8 +542,9 @@ Solution
 <section id="section-1" class="level2">
 <h2 class="anchored" data-anchor-id="section-1"></h2>
 <ul>
+<li>Understand the Fastq format</li>
 <li>Check for contaminants</li>
-<li>Asses sequence quality</li>
+<li>Assess sequence quality</li>
 <li>Understand parallel</li>
 <li>Trim your data</li>
 </ul>
@@ -532,7 +565,8 @@ Solution
 <p>First, we need to select a reference genome to align to. Every time a reference genome is released or updated it is given a new name, often referred to as the genome build or assembly (..hg18, hg19, hg38). It is important to realise that different builds of the same genome are different sequences and thus their co-ordinate sytems are incompatable. For instance position 10000000 on chr1 is T in hg19 and G in hg38.</p>
 <p>We are going to map our reads to the latest release of the yeast genome <strong>sacCer3</strong>. We need to create an index file from the sacCer3 sequence so that BWA can quickly access the reference sequences. Luckily many of these indexes are pre-computed on our servers and stored under the ~genomes directory so you would only need to run this step for a new genome:</p>
 <div class="blue">
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#bwa index -p /homes/genomes/s.cerevisiae/sacCer3/bwa_indexes/sacCer3 -a is /homes/genomes/s.cerevisiae/sacCer3/sacCer3.fa</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do not run</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#bwa index -p /homes/genomes/s.cerevisiae/sacCer3/bwa_indexes/sacCer3 -a is /homes/genomes/s.cerevisiae/sacCer3/sacCer3.fa</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 </section>
@@ -540,14 +574,14 @@ Solution
 <h3 class="anchored" data-anchor-id="mapping-reads-with-bwa">Mapping reads with BWA</h3>
 <p>Once we have an index we can align our reads to the sacCer3 genome with BWA. This will take ~5 minutes to run so let’s get it started:</p>
 <p>First create a new directory for the alignments and sub directories for each sample to keep your data organsied:</p>
-<div class="blue">
+<p>:::</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> bwa_out</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 mkdir bwa_out/{}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
 <p>Then run bwa on each of your samples. Note that we are redirecting the output to a file using <strong>&gt;</strong> so we put the full command in quotes for parallel to execute.</p>
-<div class="blue">
+<p>:::</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"bwa mem -t 5 -a -R '@RG\tID:{}\tPL:ILLUMINA' -M /homes/genomes/s.cerevisiae/sacCer3/bwa_indexes/sacCer3 fastq/{}.trim.fq.gz &gt; bwa_out/{}/{}.sam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
 <p><br></p>
 <p>This will take slightly longer to run. <!--This is a good time to go make a **coffee**! --></p>
 <p><br></p>
@@ -561,9 +595,9 @@ Solution
 <p>We can also see the samtools header using the -h flag which contains information on the parameters and indexes used to create the file.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-h</span> bwa_out/Reb1_R1/Reb1_R1.sam <span class="kw">|</span> <span class="fu">less</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can use samtools to sort the sam file by co-ordinate and output in the binary format BAM to save disk space. The BAM file can also be indexed to allow quick programmatic access for visualisation and processing. We can feed multiple commands into our call to parallel by separating them with a semi colon <strong>;</strong>.</p>
-<div class="blue">
+<p>:::</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"samtools sort bwa_out/{}/{}.sam -o bwa_out/{}/{}.bam -T bwa_out/{}/{} -O BAM; samtools index bwa_out/{}/{}.bam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
 <p>Take a look at the contents of the <em>bwa_out</em> directory now. The -lh flag prints out a directory in list view with human readable file sizes.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> bwa_out/<span class="pp">*</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Notice the difference in size between the SAM and BAM files and the .bai file which is the bam index. Let’s look at one of the BAM files using <code>samtools idxstats</code> to see where our reads align</p>
@@ -590,9 +624,9 @@ Solution
 </ul>
 <p><img src="images/multi.png" alt="pic" width="600"></p>
 <p><strong>Multimap reads</strong> are difficult to analyse as their ambiguity can confound results. Many applications require the use of <strong>unique</strong> alignments only, thus multimap reads need to be removed from your BAM file. Aligners assign a <strong>mapping quality</strong> to each read (column 5 in BAM) between 0 and 255 that describes its confidence in the alignment position. Assigned <a href="https://sequencing.qcfail.com/articles/mapq-values-are-really-useful-but-their-implementation-is-a-mess/">mapping qualities differ between mappers</a> and BWA uses a phred score to measure the accuracy of an alignment. Filtering out reads with a mapping quality &lt; 20 means that all remaining alignment positions are 99% accurate. We can use <code>samtools view -q</code> to filter based on mapping quality</p>
-<div class="blue">
+<p>:::</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"samtools view -b -q 20 bwa_out/{}/{}.bam -o bwa_out/{}/{}.uniq.bam; samtools index bwa_out/{}/{}.uniq.bam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
 <p>Note that there are aligners and analysis packages that attempt to deal with multimap reads and assign weights to each alignment, although methods are still in development. If you are interested in repeat elements or don’t want to discard any potentially useful information then you will need a strategy to deal with these reads.</p>
 <p><strong>Duplicate reads</strong> are often observed as tall spikes in your read depth profile where reads are stacked directly on top of each other. A high level of duplication in your library is often a sign of over amplification by PCR and we may want to remove this bias from our result. However, these reads may also derive from separate fragments of DNA in your sample, thus we would be removing real data. It is often a good idea to <strong>mark</strong> your duplicate reads and produce outputs both with and without duplicates for comparison. Read more about duplication bias <a href="https://sequencing.qcfail.com/articles/libraries-can-contain-technical-duplication/">here</a>.</p>
 <p>The <a href="https://broadinstitute.github.io/picard/index.html">Picard</a> package has many useful utilities for manipulating SAM/BAM files. The MarkDuplicates tool will check the alignment positions for duplicate reads and mark or remove them from your data depending on how you wish to treat them.</p>
@@ -651,10 +685,10 @@ Solution
 </div>
 <p><br> <strong>Hint:</strong> Use the <a href="https://broadinstitute.github.io/picard/explain-flags.html">Explain SAM flags</a> resource.</p>
 <p>We can also use <strong>fastqc</strong> on bam files to look at the quality and statistics for our uniquely mapped reads.</p>
-<div class="blue">
+<p>:::</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 fastqc bwa_out/{}/{}.uniq.bam</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> <span class="at">-o</span> bwa_out bwa_out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
 <div class="key-points">
 <h2 class="anchored">
 <i class="fas fa-thumbtack"></i>Key Aims:
@@ -663,7 +697,7 @@ Solution
 <h2 class="anchored" data-anchor-id="section-2"></h2>
 <ul>
 <li>Align reads to a reference genome</li>
-<li>Understand key file formats</li>
+<li>Understand alignment file formats</li>
 <li>Filter alignments for further analyses</li>
 </ul>
 </section>
@@ -673,75 +707,29 @@ Solution
 </section>
 <section id="visualisation" class="level2">
 <h2 class="anchored" data-anchor-id="visualisation">4. Visualisation</h2>
-<section id="creating-tracks" class="level3">
-<h3 class="anchored" data-anchor-id="creating-tracks">Creating Tracks</h3>
-</section>
-<section id="converting-bam-files-to-bigwig" class="level3">
-<h3 class="anchored" data-anchor-id="converting-bam-files-to-bigwig">Converting BAM files to bigWig</h3>
+<section id="converting-bam-files-to-bigwig-tracks" class="level3">
+<h3 class="anchored" data-anchor-id="converting-bam-files-to-bigwig-tracks">Converting BAM files to bigWig tracks</h3>
 <p>Visually inspecting data via a genome browser is often the first step in any analysis. Has the sequencing worked as expected? Are there noticeable differences between my samples by eye? BAM files are typically large and contain detailed information for every read, thus they are slow to access and view on a genome browser. If we are only interested in read profiles we can convert our BAM files to graphs of sequencing depth per base. The <strong>wiggle</strong> file format has three columns to represent a genomic interval and a 4th as a score which will represent the number of reads overlapping that region. We will create a compressed version of this format called <strong>bigWig</strong> for use with genome browsers. To do this we are going to use the <a href="https://deeptools.readthedocs.io">deepTools</a> package which has a lot of useful tools particularly for ChIP-seq analysis.</p>
 <p>The <a href="https://deeptools.readthedocs.io/en/develop/content/tools/bamCoverage.html">bamCoverage</a> tool in deepTools has many different options for normalising, smoothing and filtering your BAM files before converting to bigWig and the documentation is worth a read.</p>
-<div class="blue">
+<p>:::</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"bamCoverage -bs 1 --normalizeUsing BPM -e 200 -b bwa_out/{}/{}.uniq.bam --outFileName bwa_out/{}/{}.uniq.bw"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
 <ul>
 <li><strong>-bs</strong> is the bin size. We set this to 1, but we could smooth our read coverage into larger bins across the genome.</li>
 <li><strong>–normalizeUsing BPM</strong> is a normalisation strategy akin to TPM in RNA-seq and stands for “bins per million”. There are several strategies to choose or we can ignore normalisation.</li>
 <li><strong>-e 200</strong> extends our reads to 200b as this is the average fragment length. With paired end data the reads would be extended to match the ends of both reads but with single end we must supply a value.</li>
 </ul>
 <p><br></p>
-<p>==================================================================</p>
-<section id="move-this-to-the-end" class="level6">
-<h6 class="anchored" data-anchor-id="move-this-to-the-end">move this to the end</h6>
-</section>
-</section>
-<section id="scripting" class="level3">
-<h3 class="anchored" data-anchor-id="scripting">Scripting</h3>
-<p>Putting all of your commands into a script is good practice for keeping track of your analyses and for reproducibility. We want to write scripts so they can be used again on different datasets and avoid <em>hardcoding</em> the names of files.</p>
-<p>We now have our alignments (BAM) and visualisation files (bigWig) and this is normally a branching point for downstream analyses that quantify and annotate the data.</p>
-<p>Here is a pipeline containing everything we have run so far; <a href="http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/pipeline.sh">pipeline.sh</a></p>
-<p>Looking at this pipeline script you’ll notice we are not running parallel every time we run a command, instead we launch the script using parallel and the sample names are passed using the special ‘$1’ bash variable. This is more efficient as the samples will run through each command independently.</p>
-<p>Using this we can re-run everything from start to end in one go.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> CS_workshop_tmp <span class="co">#Create a temporary directory</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> CS_workshop_tmp <span class="co">#Move into that directory</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /homes/library/training/ChIP-seq_workshop/pipeline.sh . <span class="co"># Copy the pipeline into the new directory</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ../samples.txt . <span class="co">#Copy the samples file</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nohup</span> cat samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 bash pipeline.sh {} <span class="op">&gt;</span> pipeline.log <span class="kw">&amp;</span> <span class="co">#Run the shell script (See Below) </span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .. <span class="co">#Move back to the main directory</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>The <strong>nohup</strong> command stands for <em>no hangup</em> and keeps the process running even if you log out of your command line session.</li>
-<li>We use the tool <strong>bash</strong> and the name of our script to run our commands through the shell (‘sh’ will also work).</li>
-<li>We then redirect <strong>&gt;</strong> the output to a log file to keep track of any errors.</li>
-<li>We use the <strong>&amp;</strong> to run everything in the background to continue using the terminal.</li>
-</ul>
-<p>You can keep track of your pipeline by using <strong>ps</strong> or looking at the log file.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> f</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> CS_workshop_tmp/pipeline.log <span class="co"># Shows the end of a file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note any commands run on multiple samples will need be to run separately (after pipeline finished)</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> CS_workshop_tmp/fastq <span class="at">-o</span> CS_workshop_tmp/fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><br></p>
-</section>
-<section id="tidy-up" class="level3">
-<h3 class="anchored" data-anchor-id="tidy-up">Tidy Up!</h3>
-<p>Files are large, disk space is expensive, remove any unwanted or temporary files from your folder. We should always keep the raw data (fastq) and our final processed datasets (BAM, bigWig etc) and the script we used to generate them. SAM files are large and should be removed once converted to BAM.</p>
-<div class="blue">
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> fastq/<span class="pp">*</span>trim<span class="pp">*</span>fq.gz <span class="co">#Remove trimmed fastq temp files</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> bwa_out/<span class="pp">*</span>/<span class="pp">*</span>.sam <span class="co">#Remove sam files</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><br></p>
-<p>==================================================================</p>
-<section id="section-3" class="level6">
-<h6 class="anchored" data-anchor-id="section-3"></h6>
-</section>
 </section>
 <section id="integrative-genomics-viewer-igv" class="level3">
 <h3 class="anchored">Integrative Genomics Viewer (IGV)</h3>
 <p><a href="https://www.broadinstitute.org/igv/">IGV</a> (Integrative genomics viewer) is a powerful genome browser from the Broad institute. It is perfect for viewing your sequencing files as loading data is easy, common formats are understood, views are customisable and navigation is quick.</p>
 <p>First let’s put all of our visualisation files in one folder.</p>
-<div class="blue">
-<div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> visualisation</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span>/bwa_out/<span class="pp">*</span>/<span class="pp">*</span>bw visualisation</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span>/bwa_out/<span class="pp">*</span>/<span class="pp">*</span>uniq.bam<span class="pp">*</span> visualisation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> visualisation</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span>/bwa_out/<span class="pp">*</span>/<span class="pp">*</span>bw visualisation</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span>/bwa_out/<span class="pp">*</span>/<span class="pp">*</span>uniq.bam<span class="pp">*</span> visualisation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
 <p>It is best to download the <a href="https://www.broadinstitute.org/igv/">desktop app</a> for use on your own machine but if you are using a university managed computer you can access the web app at <a href="https://igv.org/app/" class="uri">https://igv.org/app/</a>.</p>
 <p>Open IGV and set the genome to <strong>sacCer3</strong>, then find your <em>visualisation</em> folder online. In the desktop version you can drag and drop files into IGV. If you are using the webapp you will need to download the files you require and open them using the <em>tracks</em> menu.</p>
 <p>Open a BAM file and a corresponding bigWig file into IGV. Make sure the .bai index file is in the same folder as the BAM.</p>
@@ -777,11 +765,11 @@ Solution
 <li>Set the scale to <strong>Autoscale</strong>. This automatically sets the Y-axis to the height of the tallest peak in your view.</li>
 </ol>
 <p><br></p>
-<div class="challenge">
+<div class="discussion">
 <h2 class="anchored" data-anchor-id="integrative-genomics-viewer-igv">
-<i class="fas fa-pencil-alt"></i> Challenge:
+<i class="fas fa-pencil-alt"></i> Discussion:
 </h2>
-<p>One BAM vs bigWig</p>
+<p>BAM vs bigWig</p>
 <ul>
 <li><p>Why are the coverage profiles different?</p></li>
 <li><p>Which format is faster to view?</p></li>
@@ -790,7 +778,7 @@ Solution
 </ul>
 <p>Now let’s load all our bigwig files</p>
 <ul>
-<li><p>Can you identify peaks in the ChIP samples</p></li>
+<li><p>Can you identify any potential peaks in the ChIP samples</p></li>
 <li><p>Do you see any peaks that are also present in the Input?</p></li>
 </ul>
 <!--<details>
@@ -817,8 +805,8 @@ Solution
 <h2 class="anchored" data-anchor-id="other-genome-browsers">
 <i class="fas fa-thumbtack"></i>Key Aims:
 </h2>
-<section id="section-4" class="level2">
-<h2 class="anchored" data-anchor-id="section-4"></h2>
+<section id="section-3" class="level2">
+<h2 class="anchored" data-anchor-id="section-3"></h2>
 <ul>
 <li>Create tracks from our data</li>
 <li>Visualise alignments on a genome browser</li>

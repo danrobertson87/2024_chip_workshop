@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2024_chip_workshop - Analysis</title>
+<title>Analysing High Throughput Sequencing Data - Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -137,7 +137,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <img src="./images/logo.png" alt="" class="navbar-logo">
     </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">2024_chip_workshop</span>
+    <span class="navbar-title">Analysing High Throughput Sequencing Data</span>
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -172,8 +172,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#assessing-chip-quality" id="toc-assessing-chip-quality" class="nav-link active" data-scroll-target="#assessing-chip-quality">Assessing ChIP quality</a></li>
-  <li><a href="#more-scripting" id="toc-more-scripting" class="nav-link" data-scroll-target="#more-scripting">More Scripting</a></li>
+  <li><a href="#assessing-chip-quality" id="toc-assessing-chip-quality" class="nav-link active" data-scroll-target="#assessing-chip-quality">## 1. Assessing ChIP quality</a>
+  <ul class="collapse">
   <li><a href="#correlation-amongst-samples" id="toc-correlation-amongst-samples" class="nav-link" data-scroll-target="#correlation-amongst-samples">Correlation amongst samples</a></li>
   <li><a href="#assessing-signal-strength" id="toc-assessing-signal-strength" class="nav-link" data-scroll-target="#assessing-signal-strength">Assessing signal strength</a></li>
   <li><a href="#summarizing-chip-signal-enrichment-across-genes" id="toc-summarizing-chip-signal-enrichment-across-genes" class="nav-link" data-scroll-target="#summarizing-chip-signal-enrichment-across-genes">Summarizing ChIP signal enrichment across genes</a></li>
@@ -182,6 +182,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#finding-peaks-with-macs" id="toc-finding-peaks-with-macs" class="nav-link" data-scroll-target="#finding-peaks-with-macs">Finding peaks with MACS</a></li>
   <li><a href="#inspecting-peaks" id="toc-inspecting-peaks" class="nav-link" data-scroll-target="#inspecting-peaks">Inspecting Peaks</a></li>
   <li><a href="#what-sequence-motifs-are-found-within-peaks" id="toc-what-sequence-motifs-are-found-within-peaks" class="nav-link" data-scroll-target="#what-sequence-motifs-are-found-within-peaks">What sequence motifs are found within peaks?</a></li>
+  </ul></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1">==================================================================</a>
+  <ul class="collapse">
+  <li><a href="#scripting" id="toc-scripting" class="nav-link" data-scroll-target="#scripting">Scripting</a></li>
+  <li><a href="#tidy-up" id="toc-tidy-up" class="nav-link" data-scroll-target="#tidy-up">Tidy Up!</a></li>
+  <li><a href="#more-scripting" id="toc-more-scripting" class="nav-link" data-scroll-target="#more-scripting">More Scripting</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -208,36 +215,50 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <script src="https://kit.fontawesome.com/ece750edd7.js" crossorigin="anonymous"></script>
 
-<p><br></p>
-<section id="assessing-chip-quality" class="level3">
-<h3 class="anchored" data-anchor-id="assessing-chip-quality">Assessing ChIP quality</h3>
+<div class="objectives">
+<p>&lt;h2&gt;&lt;i class=“far fa-check-square”&gt;&lt;/i&gt; Learning Objectives&lt;/h2&gt;</p>
+<p>-</p>
+<p>-</p>
+<p>-</p>
+</div>
+<div class="key-points">
+<h2 class="anchored">
+<i class="fas fa-thumbtack"></i> Key points:
+</h2>
+<ul>
+<li></li>
+</ul>
+</div>
+<div class="discussion">
+<h2 class="anchored">
+<i class="far fa-bell"></i> Discussion
+</h2>
+<ul>
+<li>test</li>
+</ul>
+</div>
+<div class="resources">
+<h2 class="anchored">
+<i class="fas fa-book"></i> Further Learning
+</h2>
+<p>test - test</p>
+</div>
+<div class="challenge">
+<h2 class="anchored">
+<i class="fas fa-pencil-alt"></i> Challenge:
+</h2>
+<p>test</p>
+</div>
+<section id="assessing-chip-quality" class="level2">
+<h2 class="anchored" data-anchor-id="assessing-chip-quality">## 1. Assessing ChIP quality</h2>
 <p>After we have mapped and filtered the reads it is time to make some inferences about how good the underlying data is.</p>
 <p><br></p>
-<p>==================================================================</p>
-<section id="also-move-this-section" class="level6">
-<h6 class="anchored" data-anchor-id="also-move-this-section">also move this section</h6>
-</section>
-</section>
-<section id="more-scripting" class="level3">
-<h3 class="anchored" data-anchor-id="more-scripting">More Scripting</h3>
-<p>First we want to create a new script for the analysis part of the exercise and we can save all new commands in here. We’ll start by creating and opening a new file called <strong>analysis.sh</strong>. The .sh stands for shell which is essentially just a name for the command line environment. Here we won’t be using parallel.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">emacs</span> <span class="at">-nw</span> analysis.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Emacs</strong> is a Unix text editor and the -nw flag opens a new window for editing. Here we are going to paste all of the commands as we go (click the mouse wheel to paste in the terminal):</p>
-<p>The <strong>#</strong> symbol indicates a comment line and anything proceeded by a # will not be run by the command line. It is good practice to comment your code. Try adding some comments.</p>
-<p>To save and exit the file press <strong>ctrl-x</strong>, followed by <strong>ctrl-c</strong> and then <strong>y</strong> to save.</p>
-<p>Although shell scripts save all of your commands they do not necessarily track the versions of software that you use or the current state of your environment and other tool dependencies. More advanced methods of <em>pipelining</em> and <em>containerisation</em> are recommended for fully reproducible analysis and sustainable programming.</p>
-<p>==================================================================</p>
-<section id="section" class="level6">
-<h6 class="anchored" data-anchor-id="section"></h6>
-<p><br></p>
-</section>
-</section>
 <section id="correlation-amongst-samples" class="level3">
 <h3 class="anchored" data-anchor-id="correlation-amongst-samples">Correlation amongst samples</h3>
 <p>In our experiment there are two replicates, each containing treatment and input (control) datasets. The first thing we can check is if the samples are correlated (in other words if treatment and control samples across the two replicates contain this same kind of signal). To do this we first generate a read count matrix using <a href="https://deeptools.readthedocs.io/en/develop/content/tools/multiBamSummary.html">deepTools multiBamSummary</a>. It will take around 5 minutes to complete so it’s best to set it running and read on.</p>
-<div class="blue">
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">multiBamSummary</span> bins <span class="at">-b</span> bwa_out/<span class="pp">*</span>/<span class="pp">*</span>uniq.bam <span class="at">-bs</span> 10000 <span class="at">-o</span> cov.matrix <span class="at">-e</span> 200 <span class="at">--smartLabels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">multiBamSummary</span> bins <span class="at">-b</span> bwa_out/<span class="pp">*</span>/<span class="pp">*</span>uniq.bam <span class="at">-bs</span> 10000 <span class="at">-o</span> cov.matrix <span class="at">-e</span> 200 <span class="at">--smartLabels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
 <p>This tool splits the genome into bins of fixed size (10,000 bp in our example) and computes the number of reads falling within each bin. The output is in a compressed unreadable format but here is a fragment of the data produced:</p>
 <pre><code>#'chr' 'start' 'end'  'Reb1_R1'  'Input_R1'  'Input_R1'  'Reb1_R2'
 chrVI      0     10000   19.0         41.0         3.0        6.0
@@ -246,9 +267,9 @@ chrVI   20000    30000    0.0          0.0         0.0        0.0
 chrVI   30000    40000    0.0          2.0         0.0        0.0
 chrVI   40000    50000 7447.0        139.0         7.0     2645.0</code></pre>
 <p>We can then feed this matrix into <strong>DeepTools plotCorrelation</strong> to generate a heat map.</p>
-<div class="blue">
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plotCorrelation</span> <span class="at">-in</span> cov.matrix <span class="at">-p</span> heatmap <span class="at">-c</span> spearman <span class="at">-o</span> spearman_cor.png</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plotCorrelation</span> <span class="at">-in</span> cov.matrix <span class="at">-p</span> heatmap <span class="at">-c</span> spearman <span class="at">-o</span> spearman_cor.png</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
 <p><img src="images/spearman_cor.png" width="700"></p>
 <p>Here we can see that treatments (Reb1) and controls (input) correlate well with each other, while correlation between treatments and controls is weak. This is a good sign implying that there is reproducible signal on our data.</p>
 <p><br></p>
@@ -259,7 +280,8 @@ chrVI   40000    50000 7447.0        139.0         7.0     2645.0</code></pre>
 <p><img src="images/dt_fingerhelp.png" width="700"></p>
 <p>We can apply this to our own data with <strong>DeepTools plotFingerprint</strong>:</p>
 <div class="blue">
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plotFingerprint</span> <span class="at">-b</span> bwa_out/<span class="pp">*</span>/<span class="pp">*</span>uniq.bam <span class="at">-e</span> 200 <span class="at">--smartLabels</span> <span class="at">-o</span> fingerprint.png <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># very slow</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">plotFingerprint</span> <span class="at">-b</span> bwa_out/<span class="pp">*</span>/<span class="pp">*</span>uniq.bam <span class="at">-e</span> 200 <span class="at">--smartLabels</span> <span class="at">-o</span> fingerprint.png <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The fingerprint tool can take a long time to run so we will run in the background (&amp;) and continue with the tutorial. However, You should get a plot that looks like the one below where approximately 30% of the ChIP reads are concentrated in to a small number of bins.</p>
 <p><img src="images/dt_fingerplot.png" width="700"></p>
@@ -270,30 +292,30 @@ chrVI   40000    50000 7447.0        139.0         7.0     2645.0</code></pre>
 <p>How many genes contain upstream regions enriched in Reb1 ChIP-seq reads? This is often represented as a heatmap, here is an example of histone modification ChIP-seq data from the Deeptools documentation:</p>
 <p><img src="images/plotHeatmap_example.png" width="700"></p>
 <p>First we want to create normalised datasets of ChIP signal vs Input for our two replicates. This is done using <strong>DeepTools bamCompare</strong> and gives us a bigWig file of normalised log2 ratios.</p>
-<div class="blue">
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bamCompare</span> <span class="at">-b1</span> bwa_out/Reb1_R1/Reb1_R1.uniq.bam <span class="at">-b2</span> bwa_out/Input_R1/Input_R1.uniq.bam <span class="at">-o</span> Reb1_R1.norm.bw <span class="at">-e</span> 200 <span class="at">--operation</span> log2 <span class="at">--normalizeUsing</span> BPM <span class="at">--scaleFactorsMethod</span> None <span class="kw">&amp;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bamCompare</span> <span class="at">-b1</span> bwa_out/Reb1_R2/Reb1_R2.uniq.bam <span class="at">-b2</span> bwa_out/Input_R2/Input_R2.uniq.bam <span class="at">-o</span> Reb1_R2.norm.bw <span class="at">-e</span> 200 <span class="at">--operation</span> log2 <span class="at">--normalizeUsing</span> BPM <span class="at">--scaleFactorsMethod</span> None <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bamCompare</span> <span class="at">-b1</span> bwa_out/Reb1_R1/Reb1_R1.uniq.bam <span class="at">-b2</span> bwa_out/Input_R1/Input_R1.uniq.bam <span class="at">-o</span> Reb1_R1.norm.bw <span class="at">-e</span> 200 <span class="at">--operation</span> log2 <span class="at">--normalizeUsing</span> BPM <span class="at">--scaleFactorsMethod</span> None <span class="kw">&amp;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bamCompare</span> <span class="at">-b1</span> bwa_out/Reb1_R2/Reb1_R2.uniq.bam <span class="at">-b2</span> bwa_out/Input_R2/Input_R2.uniq.bam <span class="at">-o</span> Reb1_R2.norm.bw <span class="at">-e</span> 200 <span class="at">--operation</span> log2 <span class="at">--normalizeUsing</span> BPM <span class="at">--scaleFactorsMethod</span> None <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
 <p>The bamCompare tool should take ~5 minutes to complete so you can move on to the next step. These bigWig files can also be viewed in IGV so go ahead and link them to the visualisation folder:</p>
-<div class="blue">
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span>/<span class="pp">*</span>norm.bw visualisation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span>/<span class="pp">*</span>norm.bw visualisation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
 <p>Because we want to plot enrichment around genes we need the gene annotations. These are already downloaded in the ~genomes folder so let’s link them to our current directory.</p>
-<div class="blue">
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /homes/genomes/s.cerevisiae/sacCer3/annotation/UCSC_sgdGene.bed .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /homes/genomes/s.cerevisiae/sacCer3/annotation/UCSC_sgdGene.bed .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
 <p>Take a look at this file:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> UCSC_sgdGene.bed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> UCSC_sgdGene.bed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>These gene annotations are downloaded from the UCSC website in bed12 format: The co-ordinates are in columns 1-3, the gene name in column 4 and the strand in column 6.</p>
 <p>To prepare data necessary for drawing the heatmap we will use <a href="https://deeptools.readthedocs.io/en/develop/content/tools/computeMatrix.html">deepTools computeMatrix</a>. Here we supply our normalised datasets as (S)core files along with the yeast genes from UCSC as the (R)egions to plot. We are going to compute reads around the TSS in 100b bins, with a 2kb flanking region either side.</p>
-<div class="blue">
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">computeMatrix</span> reference-point <span class="at">-R</span> UCSC_sgdGene.bed <span class="at">-S</span> Reb1_R1.norm.bw Reb1_R2.norm.bw <span class="at">-o</span> TSS.matrix <span class="at">--referencePoint</span> TSS <span class="at">--upstream</span> 2000 <span class="at">--downstream</span> 2000 <span class="at">-bs</span> 100 <span class="at">--smartLabels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">computeMatrix</span> reference-point <span class="at">-R</span> UCSC_sgdGene.bed <span class="at">-S</span> Reb1_R1.norm.bw Reb1_R2.norm.bw <span class="at">-o</span> TSS.matrix <span class="at">--referencePoint</span> TSS <span class="at">--upstream</span> 2000 <span class="at">--downstream</span> 2000 <span class="at">-bs</span> 100 <span class="at">--smartLabels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
 <p>The warning “Skipping Q0010, due to being absent in the computeMatrix output.” refers to mitochondrial genes and chrM has been exlcuded.</p>
 <p>Finally, we can visualize the heatmap by using the <strong>DeepTools plotHeatmap</strong> tool:</p>
-<div class="blue">
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plotHeatmap</span> <span class="at">-m</span> TSS.matrix <span class="at">-o</span> TSS.heatmap.png </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plotHeatmap</span> <span class="at">-m</span> TSS.matrix <span class="at">-o</span> TSS.heatmap.png </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
 <p>The resulting image shows that a significant fraction of genes have peaks of Reb1 enrichment within their upstream regions:</p>
 <details>
 <summary>
@@ -334,9 +356,9 @@ Reveal Plot
 <section id="finding-peaks-with-macs" class="level3">
 <h3 class="anchored" data-anchor-id="finding-peaks-with-macs">Finding peaks with MACS</h3>
 <p>In our case we have two replicates each containing ChIP and input DNA samples. We will run MACS2 by pooling data (combining two ChIP samples and two inputs, respectively) but a more stringent approach might be to run each replicate separately and look for overlapping peaks.</p>
-<div class="blue">
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">macs2</span> callpeak <span class="at">-t</span> bwa_out/Reb1_R1/Reb1_R1.uniq.bam bwa_out/Reb1_R2/Reb1_R2.uniq.bam <span class="at">-c</span> bwa_out/Input_R1/Input_R1.uniq.bam bwa_out/Input_R2/Input_R2.uniq.bam <span class="at">-g</span> 12000000 <span class="at">--nomodel</span> <span class="at">-n</span> Reb1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">macs2</span> callpeak <span class="at">-t</span> bwa_out/Reb1_R1/Reb1_R1.uniq.bam bwa_out/Reb1_R2/Reb1_R2.uniq.bam <span class="at">-c</span> bwa_out/Input_R1/Input_R1.uniq.bam bwa_out/Input_R2/Input_R2.uniq.bam <span class="at">-g</span> 12000000 <span class="at">--nomodel</span> <span class="at">-n</span> Reb1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
 <p>The <strong>-g</strong> flag is the approximate genome size for s.cerevisiae. In this example MACS does not have enough reads to build a shifting model with our reduced number of reads so we skip this step by using <strong>–nomodel</strong>. This should be removed when analysing a complete dataset.</p>
 <p>MACS2 will produce three outputs, a peaks.narrowPeak file containing the co-ordinates of peaks, a peaks.xls file of peaks for excel and a summits.bed file with the location of the greatest enrichment within each peak.</p>
 <p><br></p>
@@ -363,13 +385,13 @@ Reveal Plot
 <section id="what-sequence-motifs-are-found-within-peaks" class="level3">
 <h3 class="anchored">What sequence motifs are found within peaks?</h3>
 <p>In this experiment antibodies against Reb1 protein have been used for immunoprecipitaion. The recognition site for Reb1 is TTACCCG (<a href="http://www.sciencedirect.com/science/article/pii/S1097276508008423">Badis:2008</a>). To find out which sequence motifs are found within our peaks we first need to convert coordinates into underlying sequences. The <a href="https://bedtools.readthedocs.io/">bedTools</a> suite has a tool to do this.</p>
-<div class="blue">
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bedtools</span> getfasta <span class="at">-fi</span> /homes/genomes/s.cerevisiae/sacCer3/sacCer3.fa <span class="at">-bed</span> Reb1_peaks.narrowPeak <span class="at">-fo</span> Reb1_peaks.fasta <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bedtools</span> getfasta <span class="at">-fi</span> /homes/genomes/s.cerevisiae/sacCer3/sacCer3.fa <span class="at">-bed</span> Reb1_peaks.narrowPeak <span class="at">-fo</span> Reb1_peaks.fasta <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
 <p>Now we can run <a href="http://meme-suite.org/">MEME</a> to discover sequence motifs within our data. The <strong>meme-chip</strong> tool is designed specifically for looking for motifs in ChIP-seq data:</p>
-<div class="blue">
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">meme-chip</span> Reb1_peaks.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>:::</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">meme-chip</span> Reb1_peaks.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
 <p>When complete, MEME will create a new folder called <strong>memechip_out</strong> in your directory and an html (web page) report. See if you can open this in your web browser and find the TTACCCG Reb1 binding motif:</p>
 <p><img src="images/meme2.png" width="400"></p>
 <p>Now that we have completed the workshop you should be able to do the following:</p>
@@ -377,8 +399,8 @@ Reveal Plot
 <h2 class="anchored" data-anchor-id="what-sequence-motifs-are-found-within-peaks">
 <i class="fas fa-thumbtack"></i>Summary:
 </h2>
-<section id="section-1" class="level2">
-<h2 class="anchored" data-anchor-id="section-1"></h2>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
 <ul>
 <li>Align sequence reads to a reference genome</li>
 <li>Assess the quality of your ChIP-seq experiment</li>
@@ -394,6 +416,59 @@ Reveal Plot
 <p>==================================================================</p>
 <section id="scripting-here" class="level6">
 <h6 class="anchored" data-anchor-id="scripting-here">scripting here?</h6>
+</section>
+</section>
+</section>
+<section id="section-1" class="level1">
+<h1>==================================================================</h1>
+<section id="move-this-to-the-end" class="level6">
+<h6 class="anchored" data-anchor-id="move-this-to-the-end">move this to the end</h6>
+</section>
+<section id="scripting" class="level3">
+<h3 class="anchored" data-anchor-id="scripting">Scripting</h3>
+<p>Putting all of your commands into a script is good practice for keeping track of your analyses and for reproducibility. We want to write scripts so they can be used again on different datasets and avoid <em>hardcoding</em> the names of files.</p>
+<p>We now have our alignments (BAM) and visualisation files (bigWig) and this is normally a branching point for downstream analyses that quantify and annotate the data.</p>
+<p>Here is a pipeline containing everything we have run so far; <a href="http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/pipeline.sh">pipeline.sh</a></p>
+<p>Looking at this pipeline script you’ll notice we are not running parallel every time we run a command, instead we launch the script using parallel and the sample names are passed using the special ‘$1’ bash variable. This is more efficient as the samples will run through each command independently.</p>
+<p>Using this we can re-run everything from start to end in one go.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> CS_workshop_tmp <span class="co">#Create a temporary directory</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> CS_workshop_tmp <span class="co">#Move into that directory</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /homes/library/training/ChIP-seq_workshop/pipeline.sh . <span class="co"># Copy the pipeline into the new directory</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ../samples.txt . <span class="co">#Copy the samples file</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nohup</span> cat samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 bash pipeline.sh {} <span class="op">&gt;</span> pipeline.log <span class="kw">&amp;</span> <span class="co">#Run the shell script (See Below) </span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .. <span class="co">#Move back to the main directory</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>The <strong>nohup</strong> command stands for <em>no hangup</em> and keeps the process running even if you log out of your command line session.</li>
+<li>We use the tool <strong>bash</strong> and the name of our script to run our commands through the shell (‘sh’ will also work).</li>
+<li>We then redirect <strong>&gt;</strong> the output to a log file to keep track of any errors.</li>
+<li>We use the <strong>&amp;</strong> to run everything in the background to continue using the terminal.</li>
+</ul>
+<p>You can keep track of your pipeline by using <strong>ps</strong> or looking at the log file.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> f</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> CS_workshop_tmp/pipeline.log <span class="co"># Shows the end of a file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note any commands run on multiple samples will need be to run separately (after pipeline finished)</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> CS_workshop_tmp/fastq <span class="at">-o</span> CS_workshop_tmp/fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
+</section>
+<section id="tidy-up" class="level3">
+<h3 class="anchored" data-anchor-id="tidy-up">Tidy Up!</h3>
+<p>Files are large, disk space is expensive, remove any unwanted or temporary files from your folder. We should always keep the raw data (fastq) and our final processed datasets (BAM, bigWig etc) and the script we used to generate them. SAM files are large and should be removed once converted to BAM.</p>
+<p>:::</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> fastq/<span class="pp">*</span>trim<span class="pp">*</span>fq.gz <span class="co">#Remove trimmed fastq temp files</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> bwa_out/<span class="pp">*</span>/<span class="pp">*</span>.sam <span class="co">#Remove sam files</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
+<p><br></p>
+<p>================================================================== ###### also move this section</p>
+</section>
+<section id="more-scripting" class="level3">
+<h3 class="anchored" data-anchor-id="more-scripting">More Scripting</h3>
+<p>First we want to create a new script for the analysis part of the exercise and we can save all new commands in here. We’ll start by creating and opening a new file called <strong>analysis.sh</strong>. The .sh stands for shell which is essentially just a name for the command line environment. Here we won’t be using parallel.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">emacs</span> <span class="at">-nw</span> analysis.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Emacs</strong> is a Unix text editor and the -nw flag opens a new window for editing. Here we are going to paste all of the commands as we go (click the mouse wheel to paste in the terminal):</p>
+<p>The <strong>#</strong> symbol indicates a comment line and anything proceeded by a # will not be run by the command line. It is good practice to comment your code. Try adding some comments.</p>
+<p>To save and exit the file press <strong>ctrl-x</strong>, followed by <strong>ctrl-c</strong> and then <strong>y</strong> to save.</p>
+<p>Although shell scripts save all of your commands they do not necessarily track the versions of software that you use or the current state of your environment and other tool dependencies. More advanced methods of <em>pipelining</em> and <em>containerisation</em> are recommended for fully reproducible analysis and sustainable programming.</p>
+<p>==================================================================</p>
 <p>Use these links to download the full <a href="http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/pipeline.sh">pipeline.sh</a> and <a href="http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/analysis.sh">analysis.sh</a> scripts.</p>
 <p>If you are interested in other ways to plot or interrogate your data, the R programming language has many pre-built libraries to specifically analyse genomic data. Several of these are summarised in our <a href="http://bifx-core.bio.ed.ac.uk/training/ROI_workshop/R_roi_workshop.html">genomic regions of interest workshop</a> including gene annotation and plotting ChIP-seq signals. There are also packages for differential binding and statistical analysis. R is a very powerful tool for working with genomic data, applying statistics and creating visualisations. I would highly recommend learning R if you want to perform further downstream analyses.</p>
 
