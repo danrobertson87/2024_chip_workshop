@@ -18,24 +18,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-::: objectives
-
-\<h2\>\<i class="far fa-check-square"\>\</i\> Learning Objectives\</h2\>
-
-
-\- 
-
-\- 
-
-\- 
-
-:::
-
 
 ::: key-points
 <h2><i class="fas fa-thumbtack"></i> Key points:</h2>
 
--   
+- test
 
 :::
 
@@ -51,8 +38,6 @@ knitr::opts_chunk$set(echo = TRUE)
 <h2><i class="fas fa-book"></i> Further Learning</h2>
 
 test
--   test
-
 :::
 
 
@@ -63,7 +48,15 @@ test
 :::
 
 
+::: objectives
+<h2><i class="far fa-check-square"></i> Learning Objectives</h2>
 
+- Assess experiment
+
+- Call peaks in data
+
+- Understand scripting
+:::
 
 
 ## 1. Assessing ChIP quality
@@ -77,11 +70,11 @@ After we have mapped and filtered the reads it is time to make some inferences a
 
 In our experiment there are two replicates, each containing treatment and input (control) datasets. The first thing we can check is if the samples are correlated (in other words if treatment and control samples across the two replicates contain this same kind of signal). To do this we first generate a read count matrix using [deepTools multiBamSummary](https://deeptools.readthedocs.io/en/develop/content/tools/multiBamSummary.html). It will take around 5 minutes to complete so it's best to set it running and read on.
 
-::: 
+
 ``` bash
 multiBamSummary bins -b bwa_out/*/*uniq.bam -bs 10000 -o cov.matrix -e 200 --smartLabels
 ```
-:::
+
 
 This tool splits the genome into bins of fixed size (10,000 bp in our example) and computes the number of reads falling within each bin. The output is in a compressed unreadable format but here is a fragment of the data produced:
 
@@ -94,11 +87,11 @@ This tool splits the genome into bins of fixed size (10,000 bp in our example) a
 
 We can then feed this matrix into **DeepTools plotCorrelation** to generate a heat map.
 
-::: 
+
 ``` bash
 plotCorrelation -in cov.matrix -p heatmap -c spearman -o spearman_cor.png
 ```
-:::
+
 
 <img src="images/spearman_cor.png" width="700"/>
 
@@ -135,28 +128,28 @@ How many genes contain upstream regions enriched in Reb1 ChIP-seq reads? This is
 
 First we want to create normalised datasets of ChIP signal vs Input for our two replicates. This is done using **DeepTools bamCompare** and gives us a bigWig file of normalised log2 ratios.
 
-::: 
+
 ``` bash
 bamCompare -b1 bwa_out/Reb1_R1/Reb1_R1.uniq.bam -b2 bwa_out/Input_R1/Input_R1.uniq.bam -o Reb1_R1.norm.bw -e 200 --operation log2 --normalizeUsing BPM --scaleFactorsMethod None &
 bamCompare -b1 bwa_out/Reb1_R2/Reb1_R2.uniq.bam -b2 bwa_out/Input_R2/Input_R2.uniq.bam -o Reb1_R2.norm.bw -e 200 --operation log2 --normalizeUsing BPM --scaleFactorsMethod None &
 ```
-:::
+
 
 The bamCompare tool should take \~5 minutes to complete so you can move on to the next step. These bigWig files can also be viewed in IGV so go ahead and link them to the visualisation folder:
 
-::: 
+
 ``` bash
 ln -s $PWD/*norm.bw visualisation
 ```
-:::
+
 
 Because we want to plot enrichment around genes we need the gene annotations. These are already downloaded in the \~genomes folder so let's link them to our current directory.
 
-::: 
+
 ``` bash
 cp /homes/genomes/s.cerevisiae/sacCer3/annotation/UCSC_sgdGene.bed .
 ```
-:::
+
 
 Take a look at this file:
 
@@ -168,21 +161,21 @@ These gene annotations are downloaded from the UCSC website in bed12 format: The
 
 To prepare data necessary for drawing the heatmap we will use [deepTools computeMatrix](https://deeptools.readthedocs.io/en/develop/content/tools/computeMatrix.html). Here we supply our normalised datasets as (S)core files along with the yeast genes from UCSC as the (R)egions to plot. We are going to compute reads around the TSS in 100b bins, with a 2kb flanking region either side.
 
-::: 
+
 ``` bash
 computeMatrix reference-point -R UCSC_sgdGene.bed -S Reb1_R1.norm.bw Reb1_R2.norm.bw -o TSS.matrix --referencePoint TSS --upstream 2000 --downstream 2000 -bs 100 --smartLabels
 ```
-:::
+
 
 The warning "Skipping Q0010, due to being absent in the computeMatrix output." refers to mitochondrial genes and chrM has been exlcuded.
 
 Finally, we can visualize the heatmap by using the **DeepTools plotHeatmap** tool:
 
-::: 
+
 ``` bash
 plotHeatmap -m TSS.matrix -o TSS.heatmap.png 
 ```
-:::
+
 
 The resulting image shows that a significant fraction of genes have peaks of Reb1 enrichment within their upstream regions:
 
@@ -202,7 +195,7 @@ It is worth taking a look at the [documentation](http://deeptools.readthedocs.io
 
 <br>
 
-### Calling peaks
+## 2. Calling peaks
 
 While the peaks we have found in the genome browser are pretty clear and consistent across the two replicates, looking at the entire genome in the browser is hardly an efficient way to identify all peaks of Reb1 binding. There are several ways to identify genome-wide binding events and three of these methods are summarised below:
 
@@ -233,11 +226,11 @@ Peaks mapped to two strands are treated separately to build two coverage density
 
 In our case we have two replicates each containing ChIP and input DNA samples. We will run MACS2 by pooling data (combining two ChIP samples and two inputs, respectively) but a more stringent approach might be to run each replicate separately and look for overlapping peaks.
 
-::: 
+
 ``` bash
 macs2 callpeak -t bwa_out/Reb1_R1/Reb1_R1.uniq.bam bwa_out/Reb1_R2/Reb1_R2.uniq.bam -c bwa_out/Input_R1/Input_R1.uniq.bam bwa_out/Input_R2/Input_R2.uniq.bam -g 12000000 --nomodel -n Reb1
 ```
-:::
+
 
 The **-g** flag is the approximate genome size for s.cerevisiae. In this example MACS does not have enough reads to build a shifting model with our reduced number of reads so we skip this step by using **--nomodel**. This should be removed when analysing a complete dataset.
 
@@ -270,58 +263,36 @@ You can load the peak files into IGV and see how they correspond to our bigwig t
 
 In this experiment antibodies against Reb1 protein have been used for immunoprecipitaion. The recognition site for Reb1 is TTACCCG ([Badis:2008](http://www.sciencedirect.com/science/article/pii/S1097276508008423)). To find out which sequence motifs are found within our peaks we first need to convert coordinates into underlying sequences. The [bedTools](https://bedtools.readthedocs.io/) suite has a tool to do this.
 
-::: 
+
 ``` bash
 bedtools getfasta -fi /homes/genomes/s.cerevisiae/sacCer3/sacCer3.fa -bed Reb1_peaks.narrowPeak -fo Reb1_peaks.fasta &
 ```
-:::
 
 Now we can run [MEME](http://meme-suite.org/) to discover sequence motifs within our data. The **meme-chip** tool is designed specifically for looking for motifs in ChIP-seq data:
 
-::: 
+
 ``` bash
 meme-chip Reb1_peaks.fasta
 ```
-:::
+
 
 When complete, MEME will create a new folder called **memechip_out** in your directory and an html (web page) report. See if you can open this in your web browser and find the TTACCCG Reb1 binding motif:
 
 <img src="images/meme2.png" width="400"/>
 
-Now that we have completed the workshop you should be able to do the following:
-
-::: key-points
-<h2><i class="fas fa-thumbtack"></i>Summary:</h2>
-
-## 
-
--   Align sequence reads to a reference genome
--   Assess the quality of your ChIP-seq experiment
--   Visualise alignments on a genome browser
--   Summarise ChIP-seq profiles across genes
--   Peak calling
--   Motif discovery
--   Create and run shell scripts
-:::
 
 <br>
 
-==================================================================
 
-###### scripting here?
 
-==================================================================
-==================================================================
 
-###### move this to the end
-
-### Scripting
+## 3. Scripting
 
 Putting all of your commands into a script is good practice for keeping track of your analyses and for reproducibility. We want to write scripts so they can be used again on different datasets and avoid *hardcoding* the names of files.
 
-We now have our alignments (BAM) and visualisation files (bigWig) and this is normally a branching point for downstream analyses that quantify and annotate the data.
+In the first data processing section we created our alignments (BAM) and visualisation files (bigWig) and this is normally a branching point for downstream analyses that quantify and annotate the data.
 
-Here is a pipeline containing everything we have run so far; [pipeline.sh](http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/pipeline.sh)
+Here is a pipeline containing everything up to that point; [pipeline.sh](http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/pipeline.sh)
 
 Looking at this pipeline script you'll notice we are not running parallel every time we run a command, instead we launch the script using parallel and the sample names are passed using the special '\$1' bash variable. This is more efficient as the samples will run through each command independently.
 
@@ -356,23 +327,19 @@ multiqc CS_workshop_tmp/fastq -o CS_workshop_tmp/fastq
 
 <br>
 
+
 ### Tidy Up!
 
 Files are large, disk space is expensive, remove any unwanted or temporary files from your folder. We should always keep the raw data (fastq) and our final processed datasets (BAM, bigWig etc) and the script we used to generate them. SAM files are large and should be removed once converted to BAM.
 
-::: 
 ``` bash
 rm fastq/*trim*fq.gz #Remove trimmed fastq temp files
 rm bwa_out/*/*.sam #Remove sam files
 ```
-:::
+
 
 <br>
 
-==================================================================
-###### also move this section
-
-### More Scripting
 
 First we want to create a new script for the analysis part of the exercise and we can save all new commands in here. We'll start by creating and opening a new file called **analysis.sh**. The .sh stands for shell which is essentially just a name for the command line environment. Here we won't be using parallel.
 
@@ -388,10 +355,31 @@ To save and exit the file press **ctrl-x**, followed by **ctrl-c** and then **y*
 
 Although shell scripts save all of your commands they do not necessarily track the versions of software that you use or the current state of your environment and other tool dependencies. More advanced methods of *pipelining* and *containerisation* are recommended for fully reproducible analysis and sustainable programming.
 
-==================================================================
+
+
+Now that we have completed the workshop you should be able to do the following:
+
+::: key-points
+<h2><i class="fas fa-thumbtack"></i>Summary:</h2>
+
+## 
+
+-   Align sequence reads to a reference genome
+-   Assess the quality of your ChIP-seq experiment
+-   Visualise alignments on a genome browser
+-   Summarise ChIP-seq profiles across genes
+-   Peak calling
+-   Motif discovery
+-   Create and run shell scripts
+:::
+
+
+
 
 
 
 Use these links to download the full [pipeline.sh](http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/pipeline.sh) and [analysis.sh](http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/analysis.sh) scripts.
 
 If you are interested in other ways to plot or interrogate your data, the R programming language has many pre-built libraries to specifically analyse genomic data. Several of these are summarised in our [genomic regions of interest workshop](http://bifx-core.bio.ed.ac.uk/training/ROI_workshop/R_roi_workshop.html) including gene annotation and plotting ChIP-seq signals. There are also packages for differential binding and statistical analysis. R is a very powerful tool for working with genomic data, applying statistics and creating visualisations. I would highly recommend learning R if you want to perform further downstream analyses.
+
+

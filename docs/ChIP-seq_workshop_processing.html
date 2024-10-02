@@ -146,7 +146,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./2024_chip_workshop.html">
+    <a class="nav-link" href="./index.html">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -241,7 +241,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <i class="fas fa-thumbtack"></i> Key points:
 </h2>
 <ul>
-<li></li>
+<li>test</li>
 </ul>
 </div>
 <div class="discussion">
@@ -256,7 +256,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored">
 <i class="fas fa-book"></i> Further Learning
 </h2>
-<p>test - test</p>
+<ul>
+<li>test</li>
+</ul>
 </div>
 <div class="challenge">
 <h2 class="anchored">
@@ -265,11 +267,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>test</p>
 </div>
 <div class="objectives">
-<p>&lt;h2&gt;&lt;i class=“far fa-check-square”&gt;&lt;/i&gt; Learning Objectives&lt;/h2&gt;</p>
-<p>- Set up a project folder</p>
-<p>- Assess quality of sequence data</p>
-<p>- Align reads to a reference genome and perform post alignment filtering</p>
-<p>- View read coverage profiles and alignments in a genome browser</p>
+<h2 class="anchored">
+<i class="far fa-check-square"></i> Learning Objectives
+</h2>
+<ul>
+<li><p>Set up a project folder</p></li>
+<li><p>Assess quality of sequence data</p></li>
+<li><p>Align reads to a reference genome and perform post alignment filtering</p></li>
+<li><p>View read coverage profiles and alignments in a genome browser</p></li>
+</ul>
 </div>
 <section id="getting-started" class="level2">
 <h2 class="anchored" data-anchor-id="getting-started">1. Getting Started</h2>
@@ -513,19 +519,14 @@ Solution
 <li>-q : Trim reads from the 3’ end with the given quality threshold (Phred score)</li>
 <li>–minimum-length : Filter out reads below this length</li>
 </ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"cutadapt -a AGATCGGAAGAG -q 20 --minimum-length 36 -o fastq/{}.trim.fq.gz fastq/{}.fq.gz &gt; fastq/{}.trim.cutadapt_report.txt"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We will also run FastQC on the trimmed dataset.</p>
-<p>:::</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"cutadapt -a AGATCGGAAGAG -q 20 --minimum-length 36 -o fastq/{}.trim.fq.gz fastq/{}.fq.gz &gt; fastq/{}.trim.cutadapt_report.txt"</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 fastqc fastq/{}.trim.fq.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 fastqc fastq/{}.trim.fq.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To view a cutadapt report:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> fastq/Reb1_R1.trim.cutadapt_report.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> fastq/Reb1_R1.trim.cutadapt_report.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>hit ‘q’ to exit less.</p>
 <p>Let’s compare the fastqc reports using <a href="http://multiqc.info/">multiqc</a>. As you have run it already you need to use the force (-f) flag to get it to overwrite the current report.</p>
-<p>:::</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> <span class="at">-f</span> <span class="at">-o</span> fastq fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> <span class="at">-f</span> <span class="at">-o</span> fastq fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Open the multiqc report via a web browser to see how the raw and trimmed datasets compare.</p>
 <p><br></p>
 </section>
@@ -565,8 +566,8 @@ Solution
 <p>First, we need to select a reference genome to align to. Every time a reference genome is released or updated it is given a new name, often referred to as the genome build or assembly (..hg18, hg19, hg38). It is important to realise that different builds of the same genome are different sequences and thus their co-ordinate sytems are incompatable. For instance position 10000000 on chr1 is T in hg19 and G in hg38.</p>
 <p>We are going to map our reads to the latest release of the yeast genome <strong>sacCer3</strong>. We need to create an index file from the sacCer3 sequence so that BWA can quickly access the reference sequences. Luckily many of these indexes are pre-computed on our servers and stored under the ~genomes directory so you would only need to run this step for a new genome:</p>
 <div class="blue">
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do not run</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#bwa index -p /homes/genomes/s.cerevisiae/sacCer3/bwa_indexes/sacCer3 -a is /homes/genomes/s.cerevisiae/sacCer3/sacCer3.fa</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do not run</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#bwa index -p /homes/genomes/s.cerevisiae/sacCer3/bwa_indexes/sacCer3 -a is /homes/genomes/s.cerevisiae/sacCer3/sacCer3.fa</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 </section>
@@ -574,14 +575,10 @@ Solution
 <h3 class="anchored" data-anchor-id="mapping-reads-with-bwa">Mapping reads with BWA</h3>
 <p>Once we have an index we can align our reads to the sacCer3 genome with BWA. This will take ~5 minutes to run so let’s get it started:</p>
 <p>First create a new directory for the alignments and sub directories for each sample to keep your data organsied:</p>
-<p>:::</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> bwa_out</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 mkdir bwa_out/{}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> bwa_out</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 mkdir bwa_out/{}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then run bwa on each of your samples. Note that we are redirecting the output to a file using <strong>&gt;</strong> so we put the full command in quotes for parallel to execute.</p>
-<p>:::</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"bwa mem -t 5 -a -R '@RG\tID:{}\tPL:ILLUMINA' -M /homes/genomes/s.cerevisiae/sacCer3/bwa_indexes/sacCer3 fastq/{}.trim.fq.gz &gt; bwa_out/{}/{}.sam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"bwa mem -t 5 -a -R '@RG\tID:{}\tPL:ILLUMINA' -M /homes/genomes/s.cerevisiae/sacCer3/bwa_indexes/sacCer3 fastq/{}.trim.fq.gz &gt; bwa_out/{}/{}.sam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 <p>This will take slightly longer to run. <!--This is a good time to go make a **coffee**! --></p>
 <p><br></p>
@@ -590,18 +587,16 @@ Solution
 <h3 class="anchored" data-anchor-id="sambamcram-format-and-samtools">SAM/BAM/CRAM format and Samtools</h3>
 <p>The standard output for most mapping software is SAM (sequence alignment/map format). SAM files contain many columns that describe the position of each alignment as well as information on the quality of the alignment, mismatches, the number of times a read mapped, mapping of paired ends and other custom flags and statistics. SAM files can be very large so there are compressed alternatives BAM and CRAM. The <a href="http://www.htslib.org/doc/samtools.html">samtools</a> package has many useful tools for viewing and manipulating files in SAM format. We will use some of these below.</p>
 <p>Take a look at the <a href="https://samtools.github.io/hts-specs/SAMv1.pdf">SAM format specification</a> and the first few lines of your SAM output using samtools:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view bwa_out/Reb1_R1/Reb1_R1.sam <span class="kw">|</span> <span class="fu">less</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view bwa_out/Reb1_R1/Reb1_R1.sam <span class="kw">|</span> <span class="fu">less</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The second column is the <strong>SAM flag</strong> and contains coded information about each alignment. Use the <a href="https://broadinstitute.github.io/picard/explain-flags.html">Explain SAM flags</a> resource to find out more about the alignments in your file.</p>
 <p>We can also see the samtools header using the -h flag which contains information on the parameters and indexes used to create the file.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-h</span> bwa_out/Reb1_R1/Reb1_R1.sam <span class="kw">|</span> <span class="fu">less</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-h</span> bwa_out/Reb1_R1/Reb1_R1.sam <span class="kw">|</span> <span class="fu">less</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We can use samtools to sort the sam file by co-ordinate and output in the binary format BAM to save disk space. The BAM file can also be indexed to allow quick programmatic access for visualisation and processing. We can feed multiple commands into our call to parallel by separating them with a semi colon <strong>;</strong>.</p>
-<p>:::</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"samtools sort bwa_out/{}/{}.sam -o bwa_out/{}/{}.bam -T bwa_out/{}/{} -O BAM; samtools index bwa_out/{}/{}.bam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"samtools sort bwa_out/{}/{}.sam -o bwa_out/{}/{}.bam -T bwa_out/{}/{} -O BAM; samtools index bwa_out/{}/{}.bam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Take a look at the contents of the <em>bwa_out</em> directory now. The -lh flag prints out a directory in list view with human readable file sizes.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> bwa_out/<span class="pp">*</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> bwa_out/<span class="pp">*</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Notice the difference in size between the SAM and BAM files and the .bai file which is the bam index. Let’s look at one of the BAM files using <code>samtools idxstats</code> to see where our reads align</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> idxstats bwa_out/Reb1_R1/Reb1_R1.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> idxstats bwa_out/Reb1_R1/Reb1_R1.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The third column represents the number of alignments to each chromosome and at the bottom we can see some reads which have not mapped at all.</p>
 <p><br></p>
 </section>
@@ -624,9 +619,7 @@ Solution
 </ul>
 <p><img src="images/multi.png" alt="pic" width="600"></p>
 <p><strong>Multimap reads</strong> are difficult to analyse as their ambiguity can confound results. Many applications require the use of <strong>unique</strong> alignments only, thus multimap reads need to be removed from your BAM file. Aligners assign a <strong>mapping quality</strong> to each read (column 5 in BAM) between 0 and 255 that describes its confidence in the alignment position. Assigned <a href="https://sequencing.qcfail.com/articles/mapq-values-are-really-useful-but-their-implementation-is-a-mess/">mapping qualities differ between mappers</a> and BWA uses a phred score to measure the accuracy of an alignment. Filtering out reads with a mapping quality &lt; 20 means that all remaining alignment positions are 99% accurate. We can use <code>samtools view -q</code> to filter based on mapping quality</p>
-<p>:::</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"samtools view -b -q 20 bwa_out/{}/{}.bam -o bwa_out/{}/{}.uniq.bam; samtools index bwa_out/{}/{}.uniq.bam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"samtools view -b -q 20 bwa_out/{}/{}.bam -o bwa_out/{}/{}.uniq.bam; samtools index bwa_out/{}/{}.uniq.bam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note that there are aligners and analysis packages that attempt to deal with multimap reads and assign weights to each alignment, although methods are still in development. If you are interested in repeat elements or don’t want to discard any potentially useful information then you will need a strategy to deal with these reads.</p>
 <p><strong>Duplicate reads</strong> are often observed as tall spikes in your read depth profile where reads are stacked directly on top of each other. A high level of duplication in your library is often a sign of over amplification by PCR and we may want to remove this bias from our result. However, these reads may also derive from separate fragments of DNA in your sample, thus we would be removing real data. It is often a good idea to <strong>mark</strong> your duplicate reads and produce outputs both with and without duplicates for comparison. Read more about duplication bias <a href="https://sequencing.qcfail.com/articles/libraries-can-contain-technical-duplication/">here</a>.</p>
 <p>The <a href="https://broadinstitute.github.io/picard/index.html">Picard</a> package has many useful utilities for manipulating SAM/BAM files. The MarkDuplicates tool will check the alignment positions for duplicate reads and mark or remove them from your data depending on how you wish to treat them.</p>
@@ -645,10 +638,10 @@ Solution
 <h3 class="anchored">How many reads?</h3>
 <p>As we used the -a flag when aligning <strong>bwa</strong> outputs multiple alignments per read if they exist, meaning a read may have many entries within a BAM file. However, bwa will assign one of the best hits as a primary alignment and all the others as secondary. Unmapped reads are also printed to the output file and these two factors mean that the total number of lines does not correspond to the total number of mapped reads.</p>
 <p><code>samtools view</code> can tell us how many lines are in a bam file using the -c flag to count. We can filter alignments using -f (keep) or -F (discard) on the SAM flag column.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> bwa_out/Reb1_R1/Reb1_R1.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> bwa_out/Reb1_R1/Reb1_R1.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>5444557</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-f</span> 4 bwa_out/Reb1_R1/Reb1_R1.bam </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># counts number of unmapped reads (flag = '4')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-f</span> 4 bwa_out/Reb1_R1/Reb1_R1.bam </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># counts number of unmapped reads (flag = '4')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>144915</p>
 <p><br></p>
 <div class="challenge">
@@ -669,26 +662,24 @@ Solution
 <h2 class="anchored">
 <i class="far fa-eye"></i>
 </h2>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-F</span> 4 bwa_out/Reb1_R1/Reb1_R1.bam </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -F 4 filters out unmapped reads</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-F</span> 4 bwa_out/Reb1_R1/Reb1_R1.bam </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -F 4 filters out unmapped reads</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Reb1_R1 has 5299642 mapped reads</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-F</span> 260 bwa_out/Reb1_R1/Reb1_R1.bam</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -F 260 filters out unmapped reads (4) and non primary alignments (256)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-F</span> 260 bwa_out/Reb1_R1/Reb1_R1.bam</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -F 260 filters out unmapped reads (4) and non primary alignments (256)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>2572126 reads map to a single ‘unique’ location</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-q</span> 20 bwa_out/Reb1_R1/Reb1_R1.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-q</span> 20 bwa_out/Reb1_R1/Reb1_R1.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>1967026 reads have a MAPQ &gt; 20</p>
 <p>Note our filtered uniq.bams have excluded unmapped/non primary and MAPQ &lt; 20 all in one.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> bwa_out/Reb1_R1/Reb1_R1.uniq.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> bwa_out/Reb1_R1/Reb1_R1.uniq.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>1967026</p>
 </div>
 </details>
 </div>
 <p><br> <strong>Hint:</strong> Use the <a href="https://broadinstitute.github.io/picard/explain-flags.html">Explain SAM flags</a> resource.</p>
 <p>We can also use <strong>fastqc</strong> on bam files to look at the quality and statistics for our uniquely mapped reads.</p>
-<p>:::</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 fastqc bwa_out/{}/{}.uniq.bam</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> <span class="at">-o</span> bwa_out bwa_out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 fastqc bwa_out/{}/{}.uniq.bam</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> <span class="at">-o</span> bwa_out bwa_out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="key-points">
 <h2 class="anchored">
 <i class="fas fa-thumbtack"></i>Key Aims:
@@ -711,9 +702,7 @@ Solution
 <h3 class="anchored" data-anchor-id="converting-bam-files-to-bigwig-tracks">Converting BAM files to bigWig tracks</h3>
 <p>Visually inspecting data via a genome browser is often the first step in any analysis. Has the sequencing worked as expected? Are there noticeable differences between my samples by eye? BAM files are typically large and contain detailed information for every read, thus they are slow to access and view on a genome browser. If we are only interested in read profiles we can convert our BAM files to graphs of sequencing depth per base. The <strong>wiggle</strong> file format has three columns to represent a genomic interval and a 4th as a score which will represent the number of reads overlapping that region. We will create a compressed version of this format called <strong>bigWig</strong> for use with genome browsers. To do this we are going to use the <a href="https://deeptools.readthedocs.io">deepTools</a> package which has a lot of useful tools particularly for ChIP-seq analysis.</p>
 <p>The <a href="https://deeptools.readthedocs.io/en/develop/content/tools/bamCoverage.html">bamCoverage</a> tool in deepTools has many different options for normalising, smoothing and filtering your BAM files before converting to bigWig and the documentation is worth a read.</p>
-<p>:::</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"bamCoverage -bs 1 --normalizeUsing BPM -e 200 -b bwa_out/{}/{}.uniq.bam --outFileName bwa_out/{}/{}.uniq.bw"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 <span class="st">"bamCoverage -bs 1 --normalizeUsing BPM -e 200 -b bwa_out/{}/{}.uniq.bam --outFileName bwa_out/{}/{}.uniq.bw"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li><strong>-bs</strong> is the bin size. We set this to 1, but we could smooth our read coverage into larger bins across the genome.</li>
 <li><strong>–normalizeUsing BPM</strong> is a normalisation strategy akin to TPM in RNA-seq and stands for “bins per million”. There are several strategies to choose or we can ignore normalisation.</li>
@@ -725,11 +714,9 @@ Solution
 <h3 class="anchored">Integrative Genomics Viewer (IGV)</h3>
 <p><a href="https://www.broadinstitute.org/igv/">IGV</a> (Integrative genomics viewer) is a powerful genome browser from the Broad institute. It is perfect for viewing your sequencing files as loading data is easy, common formats are understood, views are customisable and navigation is quick.</p>
 <p>First let’s put all of our visualisation files in one folder.</p>
-<p>:::</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> visualisation</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span>/bwa_out/<span class="pp">*</span>/<span class="pp">*</span>bw visualisation</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span>/bwa_out/<span class="pp">*</span>/<span class="pp">*</span>uniq.bam<span class="pp">*</span> visualisation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> visualisation</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span>/bwa_out/<span class="pp">*</span>/<span class="pp">*</span>bw visualisation</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span>/bwa_out/<span class="pp">*</span>/<span class="pp">*</span>uniq.bam<span class="pp">*</span> visualisation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It is best to download the <a href="https://www.broadinstitute.org/igv/">desktop app</a> for use on your own machine but if you are using a university managed computer you can access the web app at <a href="https://igv.org/app/" class="uri">https://igv.org/app/</a>.</p>
 <p>Open IGV and set the genome to <strong>sacCer3</strong>, then find your <em>visualisation</em> folder online. In the desktop version you can drag and drop files into IGV. If you are using the webapp you will need to download the files you require and open them using the <em>tracks</em> menu.</p>
 <p>Open a BAM file and a corresponding bigWig file into IGV. Make sure the .bai index file is in the same folder as the BAM.</p>
@@ -805,13 +792,10 @@ Solution
 <h2 class="anchored" data-anchor-id="other-genome-browsers">
 <i class="fas fa-thumbtack"></i>Key Aims:
 </h2>
-<section id="section-3" class="level2">
-<h2 class="anchored" data-anchor-id="section-3"></h2>
 <ul>
 <li>Create tracks from our data</li>
 <li>Visualise alignments on a genome browser</li>
 </ul>
-</section>
 </div>
 <p><br></p>
 
