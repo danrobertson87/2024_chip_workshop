@@ -96,5 +96,12 @@
     "title": "Processing Data",
     "section": "",
     "text": "Create tracks from our data\nVisualise alignments on a genome browser"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Analysing High Throughput Sequencing Data",
+    "section": "",
+    "text": "This is the homepage for the ChIP-Seq analysis course for biologists at the University of Edinburgh.\n\n\n\nThis workshop is designed as an introduction to ChIP-seq data analysis and will guide you through the following steps:\n\nProcessing data\n\nAssessing raw sequence data and performing quality control\nAligning sequence reads to a reference genome\nFiltering alignments for further analysis\nAssessing the quality of your ChIP-seq experiment\nVisualising alignments on a genome browser\n\n\n\nAnalysis\n\nSummarising ChIP-seq profiles across genes\nPeak calling\nMotif discovery\n\nThere is no such thing as a default pipeline. Although we mostly use standard parameters in this tutorial we hope to make you aware of the considerations you should take at each step. Make sure you understand your data and where it has come from. Use the correct tools for your dataset and read the tool documentation to see how different parameters affect your output!\n\nFor more information contact Shaun Webb."
   }
 ]
