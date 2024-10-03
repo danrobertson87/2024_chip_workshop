@@ -299,17 +299,20 @@ multiqc CS_workshop_tmp/fastq -o CS_workshop_tmp/fastq
 
 <br>
 
-### Tidy Up!
-
-Files are large, disk space is expensive, remove any unwanted or temporary files from your folder. We should always keep the raw data (fastq) and our final processed datasets (BAM, bigWig etc) and the script we used to generate them. SAM files are large and should be removed once converted to BAM.
+Don't forget to tidy up.
 
 ``` bash
-rm fastq/*trim*fq.gz #Remove trimmed fastq temp files
-rm bwa_out/*/*.sam #Remove sam files
+rm CS_workshop_tmp/fastq/*trim*fq.gz #Remove trimmed fastq temp files
+rm CS_workshop_tmp/bwa_out/*/*.sam #Remove sam files
 ```
 
 <br>
 
+For reference, here is a script containing all the steps run in the analysis section;
+[analysis/sh](http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/analysis.sh)
+
+
+<!-- removed this
 First we want to create a new script for the analysis part of the exercise and we can save all new commands in here. We'll start by creating and opening a new file called **analysis.sh**. The .sh stands for shell which is essentially just a name for the command line environment. Here we won't be using parallel.
 
 ``` bash
@@ -321,6 +324,8 @@ emacs -nw analysis.sh
 The **\#** symbol indicates a comment line and anything proceeded by a \# will not be run by the command line. It is good practice to comment your code. Try adding some comments.
 
 To save and exit the file press **ctrl-x**, followed by **ctrl-c** and then **y** to save.
+-->
+
 
 Although shell scripts save all of your commands they do not necessarily track the versions of software that you use or the current state of your environment and other tool dependencies. More advanced methods of *pipelining* and *containerisation* are recommended for fully reproducible analysis and sustainable programming.
 

@@ -211,6 +211,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#converting-bam-files-to-bigwig-tracks" id="toc-converting-bam-files-to-bigwig-tracks" class="nav-link" data-scroll-target="#converting-bam-files-to-bigwig-tracks">Converting BAM files to bigWig tracks</a></li>
   <li><a href="#integrative-genomics-viewer-igv" id="toc-integrative-genomics-viewer-igv" class="nav-link" data-scroll-target="#integrative-genomics-viewer-igv">Integrative Genomics Viewer (IGV)</a></li>
   <li><a href="#other-genome-browsers" id="toc-other-genome-browsers" class="nav-link" data-scroll-target="#other-genome-browsers">Other genome browsers</a></li>
+  <li><a href="#tidy-up" id="toc-tidy-up" class="nav-link" data-scroll-target="#tidy-up">Tidy Up!</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -770,16 +771,22 @@ Solution
 </details> -->
 </div>
 <p><br></p>
-<p><br></p>
 </section>
 <section id="other-genome-browsers" class="level3">
-<h3 class="anchored">Other genome browsers</h3>
+<h3 class="anchored" data-anchor-id="other-genome-browsers">Other genome browsers</h3>
 <ul>
 <li><a href="http://www.ensembl.org">Ensembl</a> and <a href="https://genome.ucsc.edu/">UCSC</a> websites have online genome browsers where you can view your data alongside published experimental data and genomic annotations in their databases.</li>
 </ul>
 <p><br></p>
+</section>
+<section id="tidy-up" class="level3">
+<h3 class="anchored">Tidy Up!</h3>
+<p>Files are large, disk space is expensive, remove any unwanted or temporary files from your folder. We should always keep the raw data (fastq) and our final processed datasets (BAM, bigWig etc) and the script we used to generate them. SAM files are large and should be removed once converted to BAM.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> fastq/<span class="pp">*</span>trim<span class="pp">*</span>fq.gz <span class="co">#Remove trimmed fastq temp files</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> bwa_out/<span class="pp">*</span>/<span class="pp">*</span>.sam <span class="co">#Remove sam files</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
 <div class="key-points">
-<h2 class="anchored" data-anchor-id="other-genome-browsers">
+<h2 class="anchored" data-anchor-id="tidy-up">
 <i class="fas fa-thumbtack"></i>Key Aims:
 </h2>
 <ul>

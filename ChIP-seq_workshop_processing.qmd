@@ -715,12 +715,23 @@ Solution
 
 <br>
 
-<br>
+
 
 ### Other genome browsers
 
 -   [Ensembl](http://www.ensembl.org) and [UCSC](https://genome.ucsc.edu/) websites have online genome browsers where you can view your data alongside published experimental data and genomic annotations in their databases.
 
+<br>
+
+
+### Tidy Up!
+
+Files are large, disk space is expensive, remove any unwanted or temporary files from your folder. We should always keep the raw data (fastq) and our final processed datasets (BAM, bigWig etc) and the script we used to generate them. SAM files are large and should be removed once converted to BAM.
+
+``` bash
+rm fastq/*trim*fq.gz #Remove trimmed fastq temp files
+rm bwa_out/*/*.sam #Remove sam files
+```
 <br>
 
 ::: key-points
@@ -729,5 +740,7 @@ Solution
 -   Create tracks from our data
 -   Visualise alignments on a genome browser
 :::
+
+
 
 <br>
