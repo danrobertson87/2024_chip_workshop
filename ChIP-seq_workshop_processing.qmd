@@ -17,6 +17,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+<!-- 
+
 ::: key-points
 <h2><i class="fas fa-thumbtack"></i> Key points:</h2>
 
@@ -32,7 +34,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ::: resources
 <h2><i class="fas fa-book"></i> Further Learning</h2>
 
-- test
+-   test
 :::
 
 ::: challenge
@@ -41,18 +43,19 @@ knitr::opts_chunk$set(echo = TRUE)
 test
 :::
 
+-->
+
 ::: objectives
 <h2><i class="far fa-check-square"></i> Learning Objectives</h2>
 
-- Set up a project folder
+-   Set up a project folder
 
-- Assess quality of sequence data
+-   Assess quality of sequence data
 
-- Align reads to a reference genome and perform post alignment filtering
+-   Align reads to a reference genome and perform post alignment filtering
 
-- View read coverage profiles and alignments in a genome browser
+-   View read coverage profiles and alignments in a genome browser
 :::
-
 
 ## 1. Getting Started
 
@@ -176,8 +179,6 @@ Later we will use the Integrative Genomics Viewer ([IGV](https://software.broadi
 
 ::: key-points
 <h2><i class="fas fa-thumbtack"></i>Key Points:</h2>
-
-## 
 
 -   Log in to the bifx servers
 -   Create a personal web directory
@@ -342,21 +343,15 @@ Trim with caution and think about the consequences of having different length re
 -   -q : Trim reads from the 3' end with the given quality threshold (Phred score)
 -   --minimum-length : Filter out reads below this length
 
-
-
-
 ``` bash
 cat samples.txt | parallel -j 4 "cutadapt -a AGATCGGAAGAG -q 20 --minimum-length 36 -o fastq/{}.trim.fq.gz fastq/{}.fq.gz > fastq/{}.trim.cutadapt_report.txt"
 ```
-
 
 We will also run FastQC on the trimmed dataset.
 
 ``` bash
 cat samples.txt | parallel -j 4 fastqc fastq/{}.trim.fq.gz
 ```
-
-
 
 To view a cutadapt report:
 
@@ -368,12 +363,9 @@ hit 'q' to exit less.
 
 Let's compare the fastqc reports using [multiqc](http://multiqc.info/). As you have run it already you need to use the force (-f) flag to get it to overwrite the current report.
 
-
-
 ``` bash
 multiqc -f -o fastq fastq
 ```
-
 
 Open the multiqc report via a web browser to see how the raw and trimmed datasets compare.
 
@@ -386,8 +378,6 @@ Open the multiqc report via a web browser to see how the raw and trimmed dataset
 
 ::: key-points
 <h2><i class="fas fa-thumbtack"></i>Key Aims:</h2>
-
-## 
 
 -   Understand the Fastq format
 -   Check for contaminants
@@ -427,21 +417,16 @@ Once we have an index we can align our reads to the sacCer3 genome with BWA. Thi
 
 First create a new directory for the alignments and sub directories for each sample to keep your data organsied:
 
-
 ``` bash
 mkdir bwa_out
 cat samples.txt | parallel -j 4 mkdir bwa_out/{}
 ```
 
-
 Then run bwa on each of your samples. Note that we are redirecting the output to a file using **\>** so we put the full command in quotes for parallel to execute.
-
-
 
 ``` bash
 cat samples.txt | parallel -j 4 "bwa mem -t 5 -a -R '@RG\tID:{}\tPL:ILLUMINA' -M /homes/genomes/s.cerevisiae/sacCer3/bwa_indexes/sacCer3 fastq/{}.trim.fq.gz > bwa_out/{}/{}.sam"
 ```
-
 
 <br>
 
@@ -489,7 +474,7 @@ The third column represents the number of alignments to each chromosome and at t
 
 <br>
 
-### Post processing
+## 4. Post processing
 
 <br>
 
@@ -511,7 +496,6 @@ Multimap and duplicate reads are often confused so it is important to understand
 <img src="images/multi.png" alt="pic" width="600"/>
 
 **Multimap reads** are difficult to analyse as their ambiguity can confound results. Many applications require the use of **unique** alignments only, thus multimap reads need to be removed from your BAM file. Aligners assign a **mapping quality** to each read (column 5 in BAM) between 0 and 255 that describes its confidence in the alignment position. Assigned [mapping qualities differ between mappers](https://sequencing.qcfail.com/articles/mapq-values-are-really-useful-but-their-implementation-is-a-mess/) and BWA uses a phred score to measure the accuracy of an alignment. Filtering out reads with a mapping quality \< 20 means that all remaining alignment positions are 99% accurate. We can use `samtools view -q` to filter based on mapping quality
-
 
 ``` bash
 cat samples.txt | parallel -j 4 "samtools view -b -q 20 bwa_out/{}/{}.bam -o bwa_out/{}/{}.uniq.bam; samtools index bwa_out/{}/{}.uniq.bam"
@@ -610,7 +594,6 @@ samtools view -c bwa_out/Reb1_R1/Reb1_R1.uniq.bam
 
 We can also use **fastqc** on bam files to look at the quality and statistics for our uniquely mapped reads.
 
-
 ``` bash
 cat samples.txt | parallel -j 4 fastqc bwa_out/{}/{}.uniq.bam
 multiqc -o bwa_out bwa_out
@@ -619,8 +602,6 @@ multiqc -o bwa_out bwa_out
 ::: key-points
 <h2><i class="fas fa-thumbtack"></i>Key Aims:</h2>
 
-## 
-
 -   Align reads to a reference genome
 -   Understand alignment file formats
 -   Filter alignments for further analyses
@@ -628,7 +609,7 @@ multiqc -o bwa_out bwa_out
 
 <br>
 
-## 4. Visualisation
+## 5. Visualisation
 
 ### Converting BAM files to bigWig tracks
 
@@ -636,11 +617,9 @@ Visually inspecting data via a genome browser is often the first step in any ana
 
 The [bamCoverage](https://deeptools.readthedocs.io/en/develop/content/tools/bamCoverage.html) tool in deepTools has many different options for normalising, smoothing and filtering your BAM files before converting to bigWig and the documentation is worth a read.
 
-
 ``` bash
 cat samples.txt | parallel -j 4 "bamCoverage -bs 1 --normalizeUsing BPM -e 200 -b bwa_out/{}/{}.uniq.bam --outFileName bwa_out/{}/{}.uniq.bw"
 ```
-
 
 -   **-bs** is the bin size. We set this to 1, but we could smooth our read coverage into larger bins across the genome.
 -   **--normalizeUsing BPM** is a normalisation strategy akin to TPM in RNA-seq and stands for "bins per million". There are several strategies to choose or we can ignore normalisation.
@@ -653,7 +632,6 @@ cat samples.txt | parallel -j 4 "bamCoverage -bs 1 --normalizeUsing BPM -e 200 -
 [IGV](https://www.broadinstitute.org/igv/) (Integrative genomics viewer) is a powerful genome browser from the Broad institute. It is perfect for viewing your sequencing files as loading data is easy, common formats are understood, views are customisable and navigation is quick.
 
 First let's put all of our visualisation files in one folder.
-
 
 ``` bash
 mkdir visualisation

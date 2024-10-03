@@ -198,13 +198,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#genome-assemblies-and-indexing" id="toc-genome-assemblies-and-indexing" class="nav-link" data-scroll-target="#genome-assemblies-and-indexing">Genome assemblies and indexing</a></li>
   <li><a href="#mapping-reads-with-bwa" id="toc-mapping-reads-with-bwa" class="nav-link" data-scroll-target="#mapping-reads-with-bwa">Mapping reads with BWA</a></li>
   <li><a href="#sambamcram-format-and-samtools" id="toc-sambamcram-format-and-samtools" class="nav-link" data-scroll-target="#sambamcram-format-and-samtools">SAM/BAM/CRAM format and Samtools</a></li>
-  <li><a href="#post-processing" id="toc-post-processing" class="nav-link" data-scroll-target="#post-processing">Post processing</a></li>
+  </ul></li>
+  <li><a href="#post-processing" id="toc-post-processing" class="nav-link" data-scroll-target="#post-processing">4. Post processing</a>
+  <ul class="collapse">
   <li><a href="#filtering-reads-with-samtools" id="toc-filtering-reads-with-samtools" class="nav-link" data-scroll-target="#filtering-reads-with-samtools">Filtering reads with samtools</a></li>
   <li><a href="#multimap-reads-and-duplicate-reads" id="toc-multimap-reads-and-duplicate-reads" class="nav-link" data-scroll-target="#multimap-reads-and-duplicate-reads">Multimap reads and Duplicate reads</a></li>
   <li><a href="#genome-blacklists" id="toc-genome-blacklists" class="nav-link" data-scroll-target="#genome-blacklists">Genome blacklists</a></li>
   <li><a href="#how-many-reads" id="toc-how-many-reads" class="nav-link" data-scroll-target="#how-many-reads">How many reads?</a></li>
   </ul></li>
-  <li><a href="#visualisation" id="toc-visualisation" class="nav-link" data-scroll-target="#visualisation">4. Visualisation</a>
+  <li><a href="#visualisation" id="toc-visualisation" class="nav-link" data-scroll-target="#visualisation">5. Visualisation</a>
   <ul class="collapse">
   <li><a href="#converting-bam-files-to-bigwig-tracks" id="toc-converting-bam-files-to-bigwig-tracks" class="nav-link" data-scroll-target="#converting-bam-files-to-bigwig-tracks">Converting BAM files to bigWig tracks</a></li>
   <li><a href="#integrative-genomics-viewer-igv" id="toc-integrative-genomics-viewer-igv" class="nav-link" data-scroll-target="#integrative-genomics-viewer-igv">Integrative Genomics Viewer (IGV)</a></li>
@@ -236,36 +238,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <script src="https://kit.fontawesome.com/ece750edd7.js" crossorigin="anonymous"></script>
 
-<div class="key-points">
-<h2 class="anchored">
-<i class="fas fa-thumbtack"></i> Key points:
-</h2>
-<ul>
-<li>test</li>
-</ul>
-</div>
-<div class="discussion">
-<h2 class="anchored">
-<i class="far fa-bell"></i> Discussion
-</h2>
-<ul>
-<li>test</li>
-</ul>
-</div>
-<div class="resources">
-<h2 class="anchored">
-<i class="fas fa-book"></i> Further Learning
-</h2>
-<ul>
-<li>test</li>
-</ul>
-</div>
-<div class="challenge">
-<h2 class="anchored">
-<i class="fas fa-pencil-alt"></i> Challenge:
-</h2>
-<p>test</p>
-</div>
+<!-- 
+
+::: key-points
+<h2><i class="fas fa-thumbtack"></i> Key points:</h2>
+
+-   test
+:::
+
+::: discussion
+<h2><i class="far fa-bell"></i> Discussion</h2>
+
+-   test
+:::
+
+::: resources
+<h2><i class="fas fa-book"></i> Further Learning</h2>
+
+-   test
+:::
+
+::: challenge
+<h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
+
+test
+:::
+
+-->
 <div class="objectives">
 <h2 class="anchored">
 <i class="far fa-check-square"></i> Learning Objectives
@@ -396,15 +395,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="integrative-genomics-viewer">
 <i class="fas fa-thumbtack"></i>Key Points:
 </h2>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section"></h2>
 <ul>
 <li>Log in to the bifx servers</li>
 <li>Create a personal web directory</li>
 <li>Create a project directory for fastq files</li>
 <li>Running IGV</li>
 </ul>
-</section>
 </div>
 <p><br></p>
 </section>
@@ -540,8 +536,6 @@ Solution
 <h2 class="anchored" data-anchor-id="other-qc-software-worth-investigating">
 <i class="fas fa-thumbtack"></i>Key Aims:
 </h2>
-<section id="section-1" class="level2">
-<h2 class="anchored" data-anchor-id="section-1"></h2>
 <ul>
 <li>Understand the Fastq format</li>
 <li>Check for contaminants</li>
@@ -549,7 +543,6 @@ Solution
 <li>Understand parallel</li>
 <li>Trim your data</li>
 </ul>
-</section>
 </div>
 <p><br></p>
 </section>
@@ -600,10 +593,10 @@ Solution
 <p>The third column represents the number of alignments to each chromosome and at the bottom we can see some reads which have not mapped at all.</p>
 <p><br></p>
 </section>
-<section id="post-processing" class="level3">
-<h3 class="anchored" data-anchor-id="post-processing">Post processing</h3>
-<p><br></p>
 </section>
+<section id="post-processing" class="level2">
+<h2 class="anchored" data-anchor-id="post-processing">4. Post processing</h2>
+<p><br></p>
 <section id="filtering-reads-with-samtools" class="level3">
 <h3 class="anchored" data-anchor-id="filtering-reads-with-samtools">Filtering reads with samtools</h3>
 <p>Now that we have aligned our reads we may want to do some filtering before any downstream analysis. Make sure you are aware of the alignments that are reported by your mapping program and the parameters used. For instance, are unmapped reads reported? Are all alignments to repeats reported or just one? Are paired-end alignments still reported if only one end maps?</p>
@@ -684,20 +677,17 @@ Solution
 <h2 class="anchored">
 <i class="fas fa-thumbtack"></i>Key Aims:
 </h2>
-<section id="section-2" class="level2">
-<h2 class="anchored" data-anchor-id="section-2"></h2>
 <ul>
 <li>Align reads to a reference genome</li>
 <li>Understand alignment file formats</li>
 <li>Filter alignments for further analyses</li>
 </ul>
-</section>
 </div>
 <p><br></p>
 </section>
 </section>
 <section id="visualisation" class="level2">
-<h2 class="anchored" data-anchor-id="visualisation">4. Visualisation</h2>
+<h2 class="anchored" data-anchor-id="visualisation">5. Visualisation</h2>
 <section id="converting-bam-files-to-bigwig-tracks" class="level3">
 <h3 class="anchored" data-anchor-id="converting-bam-files-to-bigwig-tracks">Converting BAM files to bigWig tracks</h3>
 <p>Visually inspecting data via a genome browser is often the first step in any analysis. Has the sequencing worked as expected? Are there noticeable differences between my samples by eye? BAM files are typically large and contain detailed information for every read, thus they are slow to access and view on a genome browser. If we are only interested in read profiles we can convert our BAM files to graphs of sequencing depth per base. The <strong>wiggle</strong> file format has three columns to represent a genomic interval and a 4th as a score which will represent the number of reads overlapping that region. We will create a compressed version of this format called <strong>bigWig</strong> for use with genome browsers. To do this we are going to use the <a href="https://deeptools.readthedocs.io">deepTools</a> package which has a lot of useful tools particularly for ChIP-seq analysis.</p>
