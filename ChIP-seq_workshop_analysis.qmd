@@ -264,7 +264,7 @@ Putting all of your commands into a script is good practice for keeping track of
 
 In the first data processing section we created our alignments (BAM) and visualisation files (bigWig) and this is normally a branching point for downstream analyses that quantify and annotate the data.
 
-Here is a pipeline containing everything up to that point; [pipeline.sh](http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/pipeline.sh)
+Here is a pipeline containing everything up to that point; [pipeline.sh](http://bifx-core3.bio.ed.ac.uk/training/ChIP-seq_workshop/pipeline.sh)
 
 Looking at this pipeline script you'll notice we are not running parallel every time we run a command, instead we launch the script using parallel and the sample names are passed using the special '\$1' bash variable. This is more efficient as the samples will run through each command independently.
 
@@ -309,7 +309,7 @@ rm CS_workshop_tmp/bwa_out/*/*.sam #Remove sam files
 <br>
 
 For reference, here is a script containing all the steps run in the analysis section;
-[analysis/sh](http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/analysis.sh)
+[analysis.sh](http://bifx-core3.bio.ed.ac.uk/training/ChIP-seq_workshop/analysis.sh)
 
 
 <!-- removed this
@@ -341,6 +341,6 @@ Now that we have completed the workshop you should be able to do the following:
 -   Create and run shell scripts
 :::
 
-Use these links to download the full [pipeline.sh](http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/pipeline.sh) and [analysis.sh](http://bifx-core.bio.ed.ac.uk/training/ChIP-seq_workshop/analysis.sh) scripts.
+Use these links to download the full [pipeline.sh](http://bifx-core3.bio.ed.ac.uk/training/ChIP-seq_workshop/pipeline.sh) and [analysis.sh](http://bifx-core3.bio.ed.ac.uk/training/ChIP-seq_workshop/analysis.sh) scripts.
 
-If you are interested in other ways to plot or interrogate your data, the R programming language has many pre-built libraries to specifically analyse genomic data. Several of these are summarised in our [genomic regions of interest workshop](http://bifx-core.bio.ed.ac.uk/training/ROI_workshop/R_roi_workshop.html) including gene annotation and plotting ChIP-seq signals. There are also packages for differential binding and statistical analysis. R is a very powerful tool for working with genomic data, applying statistics and creating visualisations. I would highly recommend learning R if you want to perform further downstream analyses.
+<!--If you are interested in other ways to plot or interrogate your data, the R programming language has many pre-built libraries to specifically analyse genomic data. Several of these are summarised in our [genomic regions of interest workshop](http://bifx-core.bio.ed.ac.uk/training/ROI_workshop/R_roi_workshop.html) including gene annotation and plotting ChIP-seq signals. There are also packages for differential binding and statistical analysis. R is a very powerful tool for working with genomic data, applying statistics and creating visualisations. I would highly recommend learning R if you want to perform further downstream analyses.-->
