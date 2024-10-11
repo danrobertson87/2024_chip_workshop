@@ -15,11 +15,11 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 
 ------------------------------------------------------------------------
 
-This is the homepage for the ChIP-Seq analysis course for biologists at the University of Edinburgh.
+This is the homepage for the Analysing High Throughput Sequencing Data course run by the Bioinformatics Core at the [Discovery Research Platform for Hidden Cell Biology](https://www.ed.ac.uk/biology/drp).
 
 <br>
 
-![](images/logo.png)
+![](images/DRP_banner_transparent2.png)
 
 </br>
 

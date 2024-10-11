@@ -59,7 +59,9 @@ test
 
 ## 1. Getting Started
 
-We are using the Linux command line to run most of the tools we use today. If you are new to Linux please complete the Intro to Command Line [Workshop](http://bifx-core.bio.ed.ac.uk/hyweldd/training/Bioinformatics_on_the_Command_Line/).
+We are using the Linux command line to run most of the tools we use today. If you are new to Linux a good starting point is the Introduction to Linux [Workshop](https://swebb1.github.io/Intro_to_Linux/).
+
+
 
 <br>
 
@@ -472,9 +474,18 @@ samtools idxstats bwa_out/Reb1_R1/Reb1_R1.bam
 
 The third column represents the number of alignments to each chromosome and at the bottom we can see some reads which have not mapped at all.
 
+
+::: key-points
+<h2><i class="fas fa-thumbtack"></i> Key points:</h2>
+
+-   Align reads to a reference genome
+-   Understand alignment file formats
+
+:::
+
 <br>
 
-## 4. Post processing
+## 4. Post Processing
 
 <br>
 
@@ -602,8 +613,7 @@ multiqc -o bwa_out bwa_out
 ::: key-points
 <h2><i class="fas fa-thumbtack"></i>Key Aims:</h2>
 
--   Align reads to a reference genome
--   Understand alignment file formats
+-   Understand read types
 -   Filter alignments for further analyses
 :::
 
@@ -641,9 +651,17 @@ ln -s $PWD/bwa_out/*/*uniq.bam* visualisation
 
 It is best to download the [desktop app](https://www.broadinstitute.org/igv/) for use on your own machine but if you are using a university managed computer you can access the web app at <https://igv.org/app/>.
 
-Open IGV and set the genome to **sacCer3**, then find your *visualisation* folder online. In the desktop version you can drag and drop files into IGV. If you are using the webapp you will need to download the files you require and open them using the *tracks* menu.
+Open IGV and first set the genome to **sacCer3**, then find your *visualisation* folder online. In the desktop version you can drag and drop files into IGV. If you are using the webapp you will need to download the files you require and open them using the *tracks* menu.
 
 Open a BAM file and a corresponding bigWig file into IGV. Make sure the .bai index file is in the same folder as the BAM.
+
+To load a BAM file in IGV;
+From you visualisation folder right click and 'copy link'
+Go to File / Load from URL / Paste URL into box
+e.g. https://bifx-core3.bio.ed.ac.uk/~USER/ChIP-seq_workshop/visualisation/Input_R1.uniq.bam
+
+<!-- image of bam and bw
+<img src="images/" width="1200"/> -->
 
 <img src="images/IGV.png" width="1200"/>
 
@@ -652,7 +670,7 @@ First, let's navigate the chromosome:
 -   Use the *+* / *-* zoom bar at the top right
 -   Drag and highlight an area to zoom on the genome ruler
 -   Type a position or gene identifier in to the search box
--   If we zoom in close enough our BAM file will load and we can investigate alignments of individual reads
+-   If we **zoom in** close enough our BAM file will load and we can investigate alignments of individual reads
 
 Now let's customise our view:
 
