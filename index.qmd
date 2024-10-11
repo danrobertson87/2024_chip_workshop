@@ -33,17 +33,19 @@ This workshop is designed as an introduction to ChIP-seq data analysis and will 
 
 -   Filtering alignments for further analysis
 
--   Assessing the quality of your ChIP-seq experiment
-
 -   Visualising alignments on a genome browser
 
 ### Analysis
+
+-   Assessing the quality of your ChIP-seq experiment
 
 -   Summarising ChIP-seq profiles across genes
 
 -   Peak calling
 
 -   Motif discovery
+
+-   Scripting
 
 There is no such thing as a default pipeline. Although we mostly use standard parameters in this tutorial we hope to make you aware of the considerations you should take at each step. Make sure you understand your data and where it has come from. Use the correct tools for your dataset and read the tool documentation to see how different parameters affect your output!
 
