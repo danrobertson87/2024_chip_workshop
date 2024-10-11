@@ -397,14 +397,61 @@ Click below to reveal heatmap
 <p>Putting all of your commands into a script is good practice for keeping track of your analyses and for reproducibility. We want to write scripts so they can be used again on different datasets and avoid <em>hardcoding</em> the names of files.</p>
 <p>In the first data processing section we created our alignments (BAM) and visualisation files (bigWig) and this is normally a branching point for downstream analyses that quantify and annotate the data.</p>
 <p>Here is a pipeline containing everything up to that point; <a href="http://bifx-core3.bio.ed.ac.uk/training/ChIP-seq_workshop/pipeline.sh">pipeline.sh</a></p>
+<div class="blue">
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">##PREPARATION</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">##Create a web directory to view output</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span> ~/public_html/</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">##Create a folder for fastq files</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> fastq</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">##Copy the raw data to the fastq folder</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /homes/library/training/ChIP-seq_workshop/data/<span class="pp">*</span>fq.gz fastq/.</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">##QC</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">##FastQ Screen</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="ex">fastq_screen</span>  <span class="at">--conf</span> /homes/genomes/tool_configs/fastq_screen/fastq_screen.conf fastq/<span class="va">$1</span>.fq.gz <span class="at">--outdir</span> fastq</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">##FastQC</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> fastq/<span class="va">$1</span>.fq.gz</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">##PREPROCESSING</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">##Cutadapt</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="ex">cutadapt</span> <span class="at">-a</span> AGATCGGAAGAG <span class="at">-q</span> 20 <span class="at">--minimum-length</span> 36 <span class="at">-o</span> fastq/<span class="va">$1</span>.trim.fq.gz fastq/<span class="va">$1</span>.fq.gz <span class="op">&gt;</span> fastq/<span class="va">$1</span>.trim.cutadapt_report.txt</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">##FastQC</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> fastq/<span class="va">$1</span>.trim.fq.gz</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co">##ALIGNMENT</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">##BWA</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> bwa_out</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> bwa_out/<span class="va">$1</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="ex">bwa</span> mem <span class="at">-t</span> 5 <span class="at">-a</span> <span class="at">-R</span> <span class="st">'@RG\tID:{}\tPL:ILLUMINA'</span> <span class="at">-M</span> /homes/genomes/s.cerevisiae/sacCer3/bwa_indexes/sacCer3 fastq/<span class="va">$1</span>.trim.fq.gz <span class="op">&gt;</span> bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.sam</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="co">##Sort and index</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.sam <span class="at">-o</span> bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.bam <span class="at">-T</span> bwa_out/<span class="va">$1</span>/<span class="va">$1</span> <span class="at">-O</span> BAM<span class="kw">;</span> <span class="ex">samtools</span> index bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.bam</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="co">##Filter for uniquely mapped reads</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-q</span> 20 bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.bam <span class="at">-o</span> bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.uniq.bam<span class="kw">;</span> <span class="ex">samtools</span> index bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.uniq.bam</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="co">##FastQC on BAM files</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.uniq.bam</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="co">##VISUALISATION</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="co">##Convert BAM to normalised bigWig</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a><span class="ex">bamCoverage</span> <span class="at">-bs</span> 1 <span class="at">--normalizeUsing</span> BPM <span class="at">-e</span> 200 <span class="at">-b</span> bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.uniq.bam <span class="at">--outFileName</span> bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.uniq.bw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Looking at this pipeline script you’ll notice we are not running parallel every time we run a command, instead we launch the script using parallel and the sample names are passed using the special ‘$1’ bash variable. This is more efficient as the samples will run through each command independently.</p>
 <p>Using this we can re-run everything from start to end in one go.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> CS_workshop_tmp <span class="co">#Create a temporary directory</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> CS_workshop_tmp <span class="co">#Move into that directory</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /homes/library/training/ChIP-seq_workshop/pipeline.sh . <span class="co"># Copy the pipeline into the new directory</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ../samples.txt . <span class="co">#Copy the samples file</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nohup</span> cat samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 bash pipeline.sh {} <span class="op">&gt;</span> pipeline.log <span class="kw">&amp;</span> <span class="co">#Run the shell script (See Below) </span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .. <span class="co">#Move back to the main directory</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> CS_workshop_tmp <span class="co">#Create a temporary directory</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> CS_workshop_tmp <span class="co">#Move into that directory</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /homes/library/training/ChIP-seq_workshop/pipeline.sh . <span class="co"># Copy the pipeline into the new directory</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ../samples.txt . <span class="co">#Copy the samples file</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nohup</span> cat samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 bash pipeline.sh {} <span class="op">&gt;</span> pipeline.log <span class="kw">&amp;</span> <span class="co">#Run the shell script (See Below) </span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .. <span class="co">#Move back to the main directory</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>The <strong>nohup</strong> command stands for <em>no hangup</em> and keeps the process running even if you log out of your command line session.</li>
 <li>We use the tool <strong>bash</strong> and the name of our script to run our commands through the shell (‘sh’ will also work).</li>
@@ -412,14 +459,14 @@ Click below to reveal heatmap
 <li>We use the <strong>&amp;</strong> to run everything in the background to continue using the terminal.</li>
 </ul>
 <p>You can keep track of your pipeline by using <strong>ps</strong> or looking at the log file.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> f</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> CS_workshop_tmp/pipeline.log <span class="co"># Shows the end of a file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> f</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> CS_workshop_tmp/pipeline.log <span class="co"># Shows the end of a file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note any commands run on multiple samples will need be to run separately (after pipeline finished)</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> CS_workshop_tmp/fastq <span class="at">-o</span> CS_workshop_tmp/fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> CS_workshop_tmp/fastq <span class="at">-o</span> CS_workshop_tmp/fastq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 <p>Don’t forget to tidy up.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> CS_workshop_tmp/fastq/<span class="pp">*</span>trim<span class="pp">*</span>fq.gz <span class="co">#Remove trimmed fastq temp files</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> CS_workshop_tmp/bwa_out/<span class="pp">*</span>/<span class="pp">*</span>.sam <span class="co">#Remove sam files</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> CS_workshop_tmp/fastq/<span class="pp">*</span>trim<span class="pp">*</span>fq.gz <span class="co">#Remove trimmed fastq temp files</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> CS_workshop_tmp/bwa_out/<span class="pp">*</span>/<span class="pp">*</span>.sam <span class="co">#Remove sam files</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 <p>For reference, here is a script containing all the steps run in the analysis section; <a href="http://bifx-core3.bio.ed.ac.uk/training/ChIP-seq_workshop/analysis.sh">analysis.sh</a></p>
 <!-- removed this
