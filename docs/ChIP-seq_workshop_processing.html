@@ -420,6 +420,33 @@ test
 <li>Line 3 begins with a ‘+’ character and is optionally followed by the same sequence identifier</li>
 <li>Line 4 encodes the Phred quality score for the sequence in Line 2 as ASCII characters</li>
 </ul>
+<p>Phred Quality Score Base Call Error Probability:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Score</th>
+<th>Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Q40</td>
+<td>0.0001 (1 in 10,000)</td>
+</tr>
+<tr class="even">
+<td>Q30</td>
+<td>0.001 (1 in 1,000)</td>
+</tr>
+<tr class="odd">
+<td>Q20</td>
+<td>0.01 (1 in 100)</td>
+</tr>
+<tr class="even">
+<td>Q10</td>
+<td>0.1 (1 in 10)</td>
+</tr>
+</tbody>
+</table>
 <p><br></p>
 <p>First we want to assess the quality of our sequencing data and check for any biases and contamination.</p>
 <p><br></p>
@@ -640,19 +667,20 @@ Solution
 <section id="how-many-reads" class="level3">
 <h3 class="anchored">How many reads?</h3>
 <p>As we used the -a flag when aligning <strong>bwa</strong> outputs multiple alignments per read if they exist, meaning a read may have many entries within a BAM file. However, bwa will assign one of the best hits as a primary alignment and all the others as secondary. Unmapped reads are also printed to the output file and these two factors mean that the total number of lines does not correspond to the total number of mapped reads.</p>
-<p><code>samtools view</code> can tell us how many lines are in a bam file using the -c flag to count. We can filter alignments using -f (keep) or -F (discard) on the SAM flag column.</p>
+<p><code>samtools view</code> can tell us how many reads are in a bam file using the -c flag to count.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> bwa_out/Reb1_R1/Reb1_R1.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>5444557</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-f</span> 4 bwa_out/Reb1_R1/Reb1_R1.bam </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># counts number of unmapped reads (flag = '4')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>144915</p>
+<p>Reb1_R1.bam: 5444557</p>
+<p>We can filter alignments using -f (keep) or -F (discard) on the SAM flag column.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># counts number of unmapped reads (flag = '4')</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-f</span> 4 bwa_out/Reb1_R1/Reb1_R1.bam </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>144915 are unmapped in total (we saw this with idxstats already).</p>
 <p><br></p>
 <div class="challenge">
 <h2 class="anchored" data-anchor-id="how-many-reads">
 <i class="fas fa-pencil-alt"></i> Challenge:
 </h2>
 <ul>
-<li>How many mapped reads do you have?</li>
+<li>How many mapped reads do you have in Reb1_R1?</li>
 <li>How many of these align to a single location on the genome?</li>
 <li>How many have a MAPQ score above 20?</li>
 </ul>
@@ -673,9 +701,9 @@ Solution
 <p>2572126 reads map to a single ‘unique’ location</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-q</span> 20 bwa_out/Reb1_R1/Reb1_R1.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>1967026 reads have a MAPQ &gt; 20</p>
-<p>Note our filtered uniq.bams have excluded unmapped/non primary and MAPQ &lt; 20 all in one.</p>
+<p>Note our filtered uniq.bams have excluded unmapped/non primary reads by filtering by MAPQ &lt; 20</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> bwa_out/Reb1_R1/Reb1_R1.uniq.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>1967026</p>
+<p>Reb1_R1.uniq.bam: 1967026</p>
 </div>
 </details>
 </div>
@@ -719,10 +747,8 @@ Solution
 <p>It is best to download the <a href="https://www.broadinstitute.org/igv/">desktop app</a> for use on your own machine but if you are using a university managed computer you can access the web app at <a href="https://igv.org/app/" class="uri">https://igv.org/app/</a>.</p>
 <p>Open IGV and first set the genome to <strong>sacCer3</strong>, then find your <em>visualisation</em> folder online. In the desktop version you can drag and drop files into IGV. If you are using the webapp you will need to download the files you require and open them using the <em>tracks</em> menu.</p>
 <p>Open a BAM file and a corresponding bigWig file into IGV. Make sure the .bai index file is in the same folder as the BAM.</p>
-<p>To load a BAM file in IGV; From you visualisation folder right click and ‘copy link’ Go to File / Load from URL / Paste URL into box e.g.&nbsp;https://bifx-core3.bio.ed.ac.uk/~USER/ChIP-seq_workshop/visualisation/Input_R1.uniq.bam</p>
-<!-- image of bam and bw
-<img src="images/" width="1200"/> -->
-<p><img src="images/IGV.png" width="1200"></p>
+<p>To load a BAM file via URL; From you visualisation page right click and ‘copy link’ In IGV go to File / Load from URL / Paste URL into box e.g.&nbsp;https://bifx-core3.bio.ed.ac.uk/~USER/ChIP-seq_workshop/visualisation/Input_R1.uniq.bam</p>
+<p><img src="images/igv_w_bam.png" width="1200"></p>
 <p>First, let’s navigate the chromosome:</p>
 <ul>
 <li>Use the <em>+</em> / <em>-</em> zoom bar at the top right</li>
@@ -758,28 +784,22 @@ Solution
 <h2 class="anchored" data-anchor-id="integrative-genomics-viewer-igv">
 <i class="fas fa-pencil-alt"></i> Discussion:
 </h2>
-<p>BAM vs bigWig</p>
 <ul>
 <li><p>Why are the coverage profiles different?</p></li>
 <li><p>Which format is faster to view?</p></li>
 <li><p>Can you identify <strong>mismatches</strong> in read alignment?</p></li>
 <li><p>What other information do the BAM files give us?</p></li>
 </ul>
-<p>Now let’s load all our bigwig files</p>
+</div>
+<p>Now let’s load all our bigwig files (when comparing multiple samples it is useful to use group autoscale), have a look around the genome.</p>
+<p><img src="images/igv_bw_auto.png" width="1200"></p>
+<p><br></p>
+<div class="discussion">
 <ul>
 <li><p>Can you identify any potential peaks in the ChIP samples</p></li>
 <li><p>Do you see any peaks that are also present in the Input?</p></li>
+<li><p>Are there any potential (blacklist) regions you might consider filtering?</p></li>
 </ul>
-<!--<details>
-<summary>
-Solution
-</summary>
-<div class="solution">
-<h2><i class="far fa-eye"></i></h2>
-
-
-</div>
-</details> -->
 </div>
 <p><br></p>
 </section>

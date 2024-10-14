@@ -208,6 +208,17 @@ zless Input_R1.fq.gz | head -n 12
 -   Line 3 begins with a '+' character and is optionally followed by the same sequence identifier
 -   Line 4 encodes the Phred quality score for the sequence in Line 2 as ASCII characters
 
+
+Phred Quality Score Base Call Error Probability:
+
+| Score | Probability       |
+|----------------------------------|----------------|
+| Q40 | 0.0001  (1 in 10,000) |
+| Q30 | 0.001  (1 in 1,000) |
+| Q20 | 0.01  (1 in 100) |
+| Q10 | 0.1  (1 in 10) |
+
+
 <br>
 
 First we want to assess the quality of our sequencing data and check for any biases and contamination.
@@ -538,27 +549,30 @@ In some cases you may also want to remove ribosomal RNA/DNA reads that make up a
 
 As we used the -a flag when aligning **bwa** outputs multiple alignments per read if they exist, meaning a read may have many entries within a BAM file. However, bwa will assign one of the best hits as a primary alignment and all the others as secondary. Unmapped reads are also printed to the output file and these two factors mean that the total number of lines does not correspond to the total number of mapped reads.
 
-`samtools view` can tell us how many lines are in a bam file using the -c flag to count. We can filter alignments using -f (keep) or -F (discard) on the SAM flag column.
+`samtools view` can tell us how many reads are in a bam file using the -c flag to count. 
 
 ``` bash
 samtools view -c bwa_out/Reb1_R1/Reb1_R1.bam
 ```
 
-5444557
+Reb1_R1.bam: 5444557
+
+We can filter alignments using -f (keep) or -F (discard) on the SAM flag column.
 
 ``` bash
-samtools view -c -f 4 bwa_out/Reb1_R1/Reb1_R1.bam 
 # counts number of unmapped reads (flag = '4')
+samtools view -c -f 4 bwa_out/Reb1_R1/Reb1_R1.bam 
+
 ```
 
-144915
+144915 are unmapped in total (we saw this with idxstats already).
 
 <br>
 
 ::: challenge
 <h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
 
--   How many mapped reads do you have?
+-   How many mapped reads do you have in Reb1_R1?
 -   How many of these align to a single location on the genome?
 -   How many have a MAPQ score above 20?
 
@@ -589,13 +603,13 @@ samtools view -c -q 20 bwa_out/Reb1_R1/Reb1_R1.bam
 
 1967026 reads have a MAPQ \> 20
 
-Note our filtered uniq.bams have excluded unmapped/non primary and MAPQ \< 20 all in one.
+Note our filtered uniq.bams have excluded unmapped/non primary reads by filtering by MAPQ \< 20
 
 ``` bash
 samtools view -c bwa_out/Reb1_R1/Reb1_R1.uniq.bam
 ```
 
-1967026
+Reb1_R1.uniq.bam: 1967026
 :::
 
 </details>
@@ -655,15 +669,12 @@ Open IGV and first set the genome to **sacCer3**, then find your *visualisation*
 
 Open a BAM file and a corresponding bigWig file into IGV. Make sure the .bai index file is in the same folder as the BAM.
 
-To load a BAM file in IGV;
-From you visualisation folder right click and 'copy link'
-Go to File / Load from URL / Paste URL into box
+To load a BAM file via URL;
+From you visualisation page right click and 'copy link'
+In IGV go to File / Load from URL / Paste URL into box
 e.g. https://bifx-core3.bio.ed.ac.uk/~USER/ChIP-seq_workshop/visualisation/Input_R1.uniq.bam
 
-<!-- image of bam and bw
-<img src="images/" width="1200"/> -->
-
-<img src="images/IGV.png" width="1200"/>
+<img src="images/igv_w_bam.png" width="1200"/>
 
 First, let's navigate the chromosome:
 
@@ -701,8 +712,6 @@ WEB APP
 ::: discussion
 <h2><i class="fas fa-pencil-alt"></i> Discussion:</h2>
 
-BAM vs bigWig
-
 -   Why are the coverage profiles different?
 
 -   Which format is faster to view?
@@ -711,28 +720,24 @@ BAM vs bigWig
 
 -   What other information do the BAM files give us?
 
-Now let's load all our bigwig files
+:::
 
+Now let's load all our bigwig files (when comparing multiple samples it is useful to use group autoscale), have a look around the genome.
+
+<img src="images/igv_bw_auto.png" width="1200"/>
+
+<br>
+
+::: discussion
 -   Can you identify any potential peaks in the ChIP samples
 
 -   Do you see any peaks that are also present in the Input?
 
-```{=html}
-<!--<details>
-<summary>
-Solution
-</summary>
-<div class="solution">
-<h2><i class="far fa-eye"></i></h2>
+-   Are there any potential (blacklist) regions you might consider filtering?
 
-
-</div>
-</details> -->
-```
-:::
+::: 
 
 <br>
-
 
 
 ### Other genome browsers
