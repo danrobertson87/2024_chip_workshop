@@ -670,9 +670,12 @@ Open IGV and first set the genome to **sacCer3**, then find your *visualisation*
 Open a BAM file and a corresponding bigWig file into IGV. Make sure the .bai index file is in the same folder as the BAM.
 
 To load a BAM file via URL;
+
 From you visualisation page right click and 'copy link'
+
 In IGV go to File / Load from URL / Paste URL into box
-e.g. https://bifx-core3.bio.ed.ac.uk/~USER/ChIP-seq_workshop/visualisation/Input_R1.uniq.bam
+
+e.g. https://bifx-core3.bio.ed.ac.uk/~USER/ChIP-seq_workshop/visualisation/Reb1_R1.uniq.bam
 
 <img src="images/igv_w_bam.png" width="1200"/>
 

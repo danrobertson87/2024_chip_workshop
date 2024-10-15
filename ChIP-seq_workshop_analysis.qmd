@@ -96,16 +96,16 @@ How do we tell if we have signal coming from ChIP enrichment? One way of doing t
 
 <img src="images/dt_fingerhelp.png" width="700"/>
 
-We can apply this to our own data with **DeepTools plotFingerprint**:
+We can apply this to our own data with **DeepTools plotFingerprint**: 
 
 ::: blue
 ``` bash
-# very slow
+# very slow (no need to run)
 plotFingerprint -b bwa_out/*/*uniq.bam -e 200 --smartLabels -o fingerprint.png &
 ```
 :::
 
-The fingerprint tool can take a long time to run so we will run in the background (&) and continue with the tutorial. However, You should get a plot that looks like the one below where approximately 30% of the ChIP reads are concentrated in to a small number of bins.
+The fingerprint tool can take a long time to run so if you want to run it, do so in the background (by adding '&') and continue with the tutorial. However, You should get a plot that looks like the one below where approximately 30% of the ChIP reads are concentrated in to a small number of bins.
 
 <img src="images/dt_fingerplot.png" width="700"/>
 
@@ -389,6 +389,23 @@ The **\#** symbol indicates a comment line and anything proceeded by a \# will n
 
 To save and exit the file press **ctrl-x**, followed by **ctrl-c** and then **y** to save.
 -->
+
+::: challenge
+<h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
+As an additional exercise, edit the pipeline.sh script or write a new script to remove the chrXII rDNA region from our uniq.bam files.
+:::
+
+We can use bedtools to do this, you will need a BED file with the coordinates we want to remove;
+
+``` bash
+bedtools intersect -v -abam bwa_out/Reb1_R1/Reb1_R1.uniq.bam -b /datastore/home/genomes/s.cerevisiae/sacCer3/annotation/rDNA_full.bed > bwa_out/Reb1_R1/Reb1_R1.rDNA.uniq.bam
+``` 
+
+Make sure to name to our output something informative and comment your code.
+
+The next step will be to create new bigWig files (is there anything we need to do to the BAMs before this?)
+
+Finally, take a look at these files in IGV.
 
 
 Although shell scripts save all of your commands they do not necessarily track the versions of software that you use or the current state of your environment and other tool dependencies. More advanced methods of *pipelining* and *containerisation* are recommended for fully reproducible analysis and sustainable programming.

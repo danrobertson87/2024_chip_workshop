@@ -275,10 +275,10 @@ chrVI   40000    50000 7447.0        139.0         7.0     2645.0</code></pre>
 <p><img src="images/dt_fingerhelp.png" width="700"></p>
 <p>We can apply this to our own data with <strong>DeepTools plotFingerprint</strong>:</p>
 <div class="blue">
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># very slow</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># very slow (no need to run)</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">plotFingerprint</span> <span class="at">-b</span> bwa_out/<span class="pp">*</span>/<span class="pp">*</span>uniq.bam <span class="at">-e</span> 200 <span class="at">--smartLabels</span> <span class="at">-o</span> fingerprint.png <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The fingerprint tool can take a long time to run so we will run in the background (&amp;) and continue with the tutorial. However, You should get a plot that looks like the one below where approximately 30% of the ChIP reads are concentrated in to a small number of bins.</p>
+<p>The fingerprint tool can take a long time to run so if you want to run it, do so in the background (by adding ‘&amp;’) and continue with the tutorial. However, You should get a plot that looks like the one below where approximately 30% of the ChIP reads are concentrated in to a small number of bins.</p>
 <p><img src="images/dt_fingerplot.png" width="700"></p>
 <p><br></p>
 </section>
@@ -482,6 +482,17 @@ The **\#** symbol indicates a comment line and anything proceeded by a \# will n
 
 To save and exit the file press **ctrl-x**, followed by **ctrl-c** and then **y** to save.
 -->
+<div class="challenge">
+<h2 class="anchored">
+<i class="fas fa-pencil-alt"></i> Challenge:
+</h2>
+<p>As an additional exercise, edit the pipeline.sh script or write a new script to remove the chrXII rDNA region from our uniq.bam files.</p>
+</div>
+<p>We can use bedtools to do this, you will need a BED file with the coordinates we want to remove;</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bedtools</span> intersect <span class="at">-v</span> <span class="at">-abam</span> bwa_out/Reb1_R1/Reb1_R1.uniq.bam <span class="at">-b</span> /datastore/home/genomes/s.cerevisiae/sacCer3/annotation/rDNA_full.bed <span class="op">&gt;</span> bwa_out/Reb1_R1/Reb1_R1.rDNA.uniq.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Make sure to name to our output something informative and comment your code.</p>
+<p>The next step will be to create new bigWig files (is there anything we need to do to the BAMs before this?)</p>
+<p>Finally, take a look at these files in IGV.</p>
 <p>Although shell scripts save all of your commands they do not necessarily track the versions of software that you use or the current state of your environment and other tool dependencies. More advanced methods of <em>pipelining</em> and <em>containerisation</em> are recommended for fully reproducible analysis and sustainable programming.</p>
 <p>Now that we have completed the workshop you should be able to do the following:</p>
 <div class="key-points">
