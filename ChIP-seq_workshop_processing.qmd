@@ -572,8 +572,8 @@ samtools view -c -f 4 bwa_out/Reb1_R1/Reb1_R1.bam
 ::: challenge
 <h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
 
--   How many mapped reads do you have in Reb1_R1?
--   How many of these align to a single location on the genome?
+-   How many *mapped* reads do you have in Reb1_R1?
+-   How many of these align to a single (primary) location on the genome?
 -   How many have a MAPQ score above 20?
 
 <details>
@@ -583,33 +583,37 @@ samtools view -c -f 4 bwa_out/Reb1_R1/Reb1_R1.bam
 ::: solution
 <h2><i class="far fa-eye"></i></h2>
 
+Here '-F 4' filters out unmapped reads
 ``` bash
 samtools view -c -F 4 bwa_out/Reb1_R1/Reb1_R1.bam 
-# -F 4 filters out unmapped reads
 ```
-
 Reb1_R1 has 5299642 mapped reads
 
+We can combine flags
 ``` bash
 samtools view -c -F 260 bwa_out/Reb1_R1/Reb1_R1.bam
 # -F 260 filters out unmapped reads (4) and non primary alignments (256)
+# This gets same result 
+samtools view -c -F 256 -F 4 bwa_out/Reb1_R1/Reb1_R1.bam
 ```
 
 2572126 reads map to a single 'unique' location
 
+We can either count the reads using -q 20 as we used earlier or just count our uniq.bam file
 ``` bash
 samtools view -c -q 20 bwa_out/Reb1_R1/Reb1_R1.bam
 ```
 
 1967026 reads have a MAPQ \> 20
 
-Note our filtered uniq.bams have excluded unmapped/non primary reads by filtering by MAPQ \< 20
-
 ``` bash
 samtools view -c bwa_out/Reb1_R1/Reb1_R1.uniq.bam
 ```
-
 Reb1_R1.uniq.bam: 1967026
+
+
+Note our filtered uniq.bams have excluded unmapped/non primary reads by filtering by MAPQ \< 20
+
 :::
 
 </details>

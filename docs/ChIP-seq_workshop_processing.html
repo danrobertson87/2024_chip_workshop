@@ -680,8 +680,8 @@ Solution
 <i class="fas fa-pencil-alt"></i> Challenge:
 </h2>
 <ul>
-<li>How many mapped reads do you have in Reb1_R1?</li>
-<li>How many of these align to a single location on the genome?</li>
+<li>How many <em>mapped</em> reads do you have in Reb1_R1?</li>
+<li>How many of these align to a single (primary) location on the genome?</li>
 <li>How many have a MAPQ score above 20?</li>
 </ul>
 <details>
@@ -693,17 +693,21 @@ Solution
 <h2 class="anchored">
 <i class="far fa-eye"></i>
 </h2>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-F</span> 4 bwa_out/Reb1_R1/Reb1_R1.bam </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -F 4 filters out unmapped reads</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here ‘-F 4’ filters out unmapped reads</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-F</span> 4 bwa_out/Reb1_R1/Reb1_R1.bam </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Reb1_R1 has 5299642 mapped reads</p>
+<p>We can combine flags</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-F</span> 260 bwa_out/Reb1_R1/Reb1_R1.bam</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -F 260 filters out unmapped reads (4) and non primary alignments (256)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -F 260 filters out unmapped reads (4) and non primary alignments (256)</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This gets same result </span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-F</span> 256 <span class="at">-F</span> 4 bwa_out/Reb1_R1/Reb1_R1.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>2572126 reads map to a single ‘unique’ location</p>
+<p>We can either count the reads using -q 20 as we used earlier or just count our uniq.bam file</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> <span class="at">-q</span> 20 bwa_out/Reb1_R1/Reb1_R1.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>1967026 reads have a MAPQ &gt; 20</p>
-<p>Note our filtered uniq.bams have excluded unmapped/non primary reads by filtering by MAPQ &lt; 20</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-c</span> bwa_out/Reb1_R1/Reb1_R1.uniq.bam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Reb1_R1.uniq.bam: 1967026</p>
+<p>Note our filtered uniq.bams have excluded unmapped/non primary reads by filtering by MAPQ &lt; 20</p>
 </div>
 </details>
 </div>
