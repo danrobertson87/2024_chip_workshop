@@ -292,7 +292,7 @@ chrVI   40000    50000 7447.0        139.0         7.0     2645.0</code></pre>
 <p>The bamCompare tool should take ~5 minutes to complete so you can move on to the next step. These bigWig files can also be viewed in IGV so go ahead and link them to the visualisation folder:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> <span class="va">$PWD</span>/<span class="pp">*</span>norm.bw visualisation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Because we want to plot enrichment around genes we need the gene annotations. These are already downloaded in the ~genomes folder so let’s link them to our current directory.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /homes/genomes/s.cerevisiae/sacCer3/annotation/UCSC_sgdGene.bed .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /home/genomes/s.cerevisiae/sacCer3/annotation/UCSC_sgdGene.bed .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Take a look at this file:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> UCSC_sgdGene.bed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>These gene annotations are downloaded from the UCSC website in bed12 format: The co-ordinates are in columns 1-3, the gene name in column 4 and the strand in column 6.</p>
@@ -375,7 +375,7 @@ Click below to reveal heatmap
 <section id="what-sequence-motifs-are-found-within-peaks" class="level3">
 <h3 class="anchored">What sequence motifs are found within peaks?</h3>
 <p>In this experiment antibodies against Reb1 protein have been used for immunoprecipitaion. The recognition site for Reb1 is TTACCCG (<a href="http://www.sciencedirect.com/science/article/pii/S1097276508008423">Badis:2008</a>). To find out which sequence motifs are found within our peaks we first need to convert coordinates into underlying sequences. The <a href="https://bedtools.readthedocs.io/">bedTools</a> suite has a tool to do this.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bedtools</span> getfasta <span class="at">-fi</span> /homes/genomes/s.cerevisiae/sacCer3/sacCer3.fa <span class="at">-bed</span> Reb1_peaks.narrowPeak <span class="at">-fo</span> Reb1_peaks.fasta <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bedtools</span> getfasta <span class="at">-fi</span> /home/genomes/s.cerevisiae/sacCer3/sacCer3.fa <span class="at">-bed</span> Reb1_peaks.narrowPeak <span class="at">-fo</span> Reb1_peaks.fasta <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Now we can run <a href="http://meme-suite.org/">MEME</a> to discover sequence motifs within our data. The <strong>meme-chip</strong> tool is designed specifically for looking for motifs in ChIP-seq data:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">meme-chip</span> Reb1_peaks.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>When complete, MEME will create a new folder called <strong>memechip_out</strong> in your directory and an html (web page) report. See if you can open this in your web browser and find the TTACCCG Reb1 binding motif:</p>
@@ -405,13 +405,13 @@ Click below to reveal heatmap
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">##Create a folder for fastq files</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> fastq</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">##Copy the raw data to the fastq folder</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /homes/library/training/ChIP-seq_workshop/data/<span class="pp">*</span>fq.gz fastq/.</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /home/library/training/ChIP-seq_workshop/data/<span class="pp">*</span>fq.gz fastq/.</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">##QC</span></span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">##FastQ Screen</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="ex">fastq_screen</span>  <span class="at">--conf</span> /homes/genomes/tool_configs/fastq_screen/fastq_screen.conf fastq/<span class="va">$1</span>.fq.gz <span class="at">--outdir</span> fastq</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="ex">fastq_screen</span>  <span class="at">--conf</span> /home/genomes/tool_configs/fastq_screen/fastq_screen.conf fastq/<span class="va">$1</span>.fq.gz <span class="at">--outdir</span> fastq</span>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">##FastQC</span></span>
 <span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> fastq/<span class="va">$1</span>.fq.gz</span>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
@@ -430,7 +430,7 @@ Click below to reveal heatmap
 <span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">##BWA</span></span>
 <span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> bwa_out</span>
 <span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> bwa_out/<span class="va">$1</span></span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="ex">bwa</span> mem <span class="at">-t</span> 5 <span class="at">-a</span> <span class="at">-R</span> <span class="st">'@RG\tID:{}\tPL:ILLUMINA'</span> <span class="at">-M</span> /homes/genomes/s.cerevisiae/sacCer3/bwa_indexes/sacCer3 fastq/<span class="va">$1</span>.trim.fq.gz <span class="op">&gt;</span> bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.sam</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="ex">bwa</span> mem <span class="at">-t</span> 5 <span class="at">-a</span> <span class="at">-R</span> <span class="st">'@RG\tID:{}\tPL:ILLUMINA'</span> <span class="at">-M</span> /home/genomes/s.cerevisiae/sacCer3/bwa_indexes/sacCer3 fastq/<span class="va">$1</span>.trim.fq.gz <span class="op">&gt;</span> bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.sam</span>
 <span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="co">##Sort and index</span></span>
 <span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.sam <span class="at">-o</span> bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.bam <span class="at">-T</span> bwa_out/<span class="va">$1</span>/<span class="va">$1</span> <span class="at">-O</span> BAM<span class="kw">;</span> <span class="ex">samtools</span> index bwa_out/<span class="va">$1</span>/<span class="va">$1</span>.bam</span>
 <span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="co">##Filter for uniquely mapped reads</span></span>
@@ -448,7 +448,7 @@ Click below to reveal heatmap
 <p>Using this we can re-run everything from start to end in one go.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> CS_workshop_tmp <span class="co">#Create a temporary directory</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> CS_workshop_tmp <span class="co">#Move into that directory</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /homes/library/training/ChIP-seq_workshop/pipeline.sh . <span class="co"># Copy the pipeline into the new directory</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /home/library/training/ChIP-seq_workshop/pipeline.sh . <span class="co"># Copy the pipeline into the new directory</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ../samples.txt . <span class="co">#Copy the samples file</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nohup</span> cat samples.txt <span class="kw">|</span> <span class="ex">parallel</span> <span class="at">-j</span> 4 bash pipeline.sh {} <span class="op">&gt;</span> pipeline.log <span class="kw">&amp;</span> <span class="co">#Run the shell script (See Below) </span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .. <span class="co">#Move back to the main directory</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -495,10 +495,10 @@ To save and exit the file press **ctrl-x**, followed by **ctrl-c** and then **y*
 <p>Finally, take a look at these files in IGV.</p>
 <p><br></p>
 <p>Although shell scripts save all of your commands they do not necessarily track the versions of software that you use or the current state of your environment and other tool dependencies. More advanced methods of <em>pipelining</em> and <em>containerisation</em> are recommended for fully reproducible analysis and sustainable programming.</p>
-<!--Now that we have completed the workshop you should be able to do the following: -->
+<!--Now that we have completed the workshop you should be able to do the following:  add summary?-->
 <div class="key-points">
 <h2 class="anchored">
-<i class="fas fa-thumbtack"></i>Summary:
+<i class="fas fa-thumbtack"></i> Key points:
 </h2>
 <ul>
 <li>Create and run shell scripts</li>
